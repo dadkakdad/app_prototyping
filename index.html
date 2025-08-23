@@ -7,6 +7,92 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Яндекс Лавка - Корзина</title>
     <style>
+        /* Custom Fonts */
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Thin.ttf') format('truetype');
+            font-weight: 100;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Thin Italic.ttf') format('truetype');
+            font-weight: 100;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Light.ttf') format('truetype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Light Italic.ttf') format('truetype');
+            font-weight: 300;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Regular Italic.ttf') format('truetype');
+            font-weight: 400;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Medium Italic.ttf') format('truetype');
+            font-weight: 500;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Bold Italic.ttf') format('truetype');
+            font-weight: 700;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Heavy.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Heavy Italic.ttf') format('truetype');
+            font-weight: 800;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Black.ttf') format('truetype');
+            font-weight: 900;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'YS Text';
+            src: url('./assets/fonts/YS Text-Black Italic.ttf') format('truetype');
+            font-weight: 900;
+            font-style: italic;
+        }
+
         /* Design System - Variables */
         :root {
             /* Colors */
@@ -24,7 +110,7 @@
             --color-badge-blue: #00AAFF;
             
             /* Typography */
-            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --font-family: 'YS Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             --font-size-xs: 11px;
             --font-size-sm: 13px;
             --font-size-base: 15px;
@@ -63,6 +149,11 @@
             background: var(--color-bg-secondary);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            touch-action: manipulation;
+        }
+
+        button {
+            font-family: inherit;
         }
 
         /* Status Bar */
@@ -87,20 +178,23 @@
         .header {
             background: var(--color-bg-primary);
             padding: var(--spacing-md) var(--spacing-lg);
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: space-between;
             border-bottom: 1px solid var(--color-border);
         }
 
         .header-title {
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-md);
             font-weight: 600;
+            grid-column: 2;
         }
 
         .header-actions {
             display: flex;
             gap: var(--spacing-lg);
+            grid-column: 3;
+            justify-self: end;
         }
 
         .icon-btn {
@@ -108,6 +202,12 @@
             border: none;
             padding: var(--spacing-xs);
             cursor: pointer;
+        }
+
+        .icon-btn img {
+            width: 24px;
+            height: 24px;
+            display: block;
         }
 
         /* Tabs */
@@ -652,9 +752,9 @@
     <header class="header">
         <h1 class="header-title">Корзина</h1>
         <div class="header-actions">
-            <button class="icon-btn">⬆️</button>
-            <button class="icon-btn">🔍</button>
-            <button class="icon-btn">🗑️</button>
+            <button class="icon-btn"><img src="./assets/share_export.svg" alt="Share"></button>
+            <button class="icon-btn"><img src="./assets/search_export.svg" alt="Search"></button>
+            <button class="icon-btn"><img src="./assets/empty_export.svg" alt="Empty cart"></button>
         </div>
     </header>
 
