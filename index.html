@@ -1266,6 +1266,11 @@
             }
         }, {passive: false});
 
+        // Prevent pinch-to-zoom on iOS
+        document.addEventListener('touchmove', function (event) {
+          if (event.scale !== 1) { event.preventDefault(); }
+        }, { passive: false });
+
         // Initialize
         window.addEventListener('load', function() {
             // Load saved state
