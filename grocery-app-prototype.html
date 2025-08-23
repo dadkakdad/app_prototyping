@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Яндекс Лавка - Корзина</title>
+    <style>
+        /* Design System - Variables */
+        :root {
+            /* Colors */
+            --color-primary: #FFCC00;
+            --color-primary-dark: #FFB800;
+            --color-green: #00B341;
+            --color-red: #FF3333;
+            --color-text-primary: #000000;
+            --color-text-secondary: #666666;
+            --color-text-tertiary: #999999;
+            --color-bg-primary: #FFFFFF;
+            --color-bg-secondary: #F5F5F5;
+            --color-bg-card: #F8F8F8;
+            --color-border: #E8E8E8;
+            --color-badge-blue: #00AAFF;
+            
+            /* Typography */
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --font-size-xs: 11px;
+            --font-size-sm: 13px;
+            --font-size-base: 15px;
+            --font-size-md: 17px;
+            --font-size-lg: 20px;
+            --font-size-xl: 24px;
+            
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-lg: 16px;
+            --spacing-xl: 20px;
+            --spacing-2xl: 24px;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            color: var(--color-text-primary);
+            background: var(--color-bg-secondary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            background: var(--color-bg-primary);
+            padding: 0 var(--spacing-xl);
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--font-size-base);
+            font-weight: 600;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-bg-primary);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            padding: var(--spacing-xs);
+            cursor: pointer;
+        }
+
+        /* Tabs */
+        .tabs {
+            background: var(--color-bg-primary);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .tab {
+            flex: 1;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--color-border);
+            background: var(--color-bg-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            border-color: var(--color-primary);
+            background: #FFFBF0;
+        }
+
+        .tab-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-sm);
+            background: var(--color-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .tab-content {
+            flex: 1;
+        }
+
+        .tab-title {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .tab-subtitle {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+
+        /* Delivery Info */
+        .delivery-info {
+            background: var(--color-bg-primary);
+            padding: var(--spacing-lg);
+            border-bottom: 8px solid var(--color-bg-secondary);
+        }
+
+        .delivery-card {
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .delivery-text {
+            flex: 1;
+        }
+
+        .delivery-title {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .delivery-subtitle {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .badge-green {
+            background: var(--color-green);
+            color: white;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 10px;
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+            position: relative;
+            overflow: visible;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+        }
+
+        .progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #00C853 0%, var(--color-green) 100%);
+            border-radius: var(--radius-full);
+            width: 70%;
+            transition: width 300ms ease;
+        }
+
+        .progress-goal {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--color-red);
+            border-radius: var(--radius-full);
+        }
+
+        .progress-goal::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -4px;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--color-red);
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(255,51,51,0.15);
+        }
+
+        .progress-min {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            min-width: 60px;
+        }
+
+        .progress-stats {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            min-width: 110px;
+            justify-content: flex-start;
+        }
+
+        .goal-chip {
+            font-size: var(--font-size-sm);
+            color: var(--color-red);
+            background: #FFF5F5;
+            border: 1px solid rgba(255,51,51,0.25);
+            padding: 2px 6px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+        }
+
+        .goal-amount {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            background: var(--color-bg-primary);
+            padding: var(--spacing-lg);
+        }
+
+        .cart-item {
+            display: flex;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) 0;
+        }
+
+        .item-image {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-sm);
+            background: var(--color-bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .item-price {
+            display: flex;
+            align-items: baseline;
+            gap: var(--spacing-sm);
+        }
+
+        .price-current {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            color: var(--color-red);
+        }
+
+        .price-old {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-tertiary);
+            text-decoration: line-through;
+        }
+
+        .price-weight {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--color-border);
+            background: var(--color-bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:active {
+            transform: scale(0.95);
+        }
+
+        .qty-value {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            padding: var(--spacing-lg);
+            background: var(--color-bg-primary);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) 0;
+        }
+
+        .summary-label {
+            font-size: var(--font-size-base);
+            color: var(--color-text-primary);
+        }
+
+        .summary-value {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+        }
+
+        /* Package Return */
+        .package-return {
+            padding: var(--spacing-lg);
+            background: var(--color-bg-primary);
+            border-top: 8px solid var(--color-bg-secondary);
+        }
+
+        .return-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .return-text {
+            flex: 1;
+        }
+
+        .return-title {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .return-link {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .toggle-switch {
+            width: 51px;
+            height: 31px;
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--color-green);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+
+        /* Promo Banner */
+        .promo-banner {
+            padding: var(--spacing-lg);
+            background: var(--color-bg-primary);
+        }
+
+        .promo-card {
+            background: var(--color-badge-blue);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .promo-badge {
+            background: white;
+            color: var(--color-badge-blue);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: var(--font-size-sm);
+        }
+
+        .promo-text {
+            flex: 1;
+            font-size: var(--font-size-base);
+            font-weight: 500;
+        }
+
+        /* Recommendations */
+        .recommendations {
+            padding: var(--spacing-lg);
+            background: var(--color-bg-primary);
+            border-top: 8px solid var(--color-bg-secondary);
+        }
+
+        .recommendations-header {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .recommendations-grid {
+            display: flex;
+            gap: var(--spacing-md);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .recommendation-card {
+            min-width: 120px;
+            background: var(--color-bg-card);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm);
+        }
+
+        .rec-image {
+            width: 100%;
+            height: 80px;
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .rec-badge {
+            position: absolute;
+            top: var(--spacing-xs);
+            left: var(--spacing-xs);
+            background: var(--color-badge-blue);
+            color: white;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+        }
+
+        /* Checkout Footer */
+        .checkout-footer {
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            background: var(--color-bg-primary);
+            padding: var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .checkout-btn {
+            background: var(--color-primary);
+            color: var(--color-text-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            width: 100%;
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .checkout-btn:active {
+            background: var(--color-primary-dark);
+        }
+
+        .checkout-time {
+            font-size: var(--font-size-base);
+        }
+
+        .checkout-price {
+            display: flex;
+            align-items: baseline;
+            gap: var(--spacing-sm);
+        }
+
+        .price-final {
+            font-size: var(--font-size-lg);
+        }
+
+        .price-original {
+            font-size: var(--font-size-base);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-bg-primary);
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            height: 60px;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            cursor: pointer;
+            color: var(--color-text-secondary);
+        }
+
+        .nav-item.active {
+            color: var(--color-text-primary);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: -4px;
+            right: -8px;
+            background: var(--color-red);
+            color: white;
+            border-radius: var(--radius-full);
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Spacer for fixed elements */
+        .content-spacer {
+            height: 140px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="time">14:26</div>
+        <div class="status-icons">
+            <span>📶</span>
+            <span>📶</span>
+            <span>🔋 74%</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">Корзина</h1>
+        <div class="header-actions">
+            <button class="icon-btn">⬆️</button>
+            <button class="icon-btn">🔍</button>
+            <button class="icon-btn">🗑️</button>
+        </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" data-store="home">
+            <div class="tab-icon">🏪</div>
+            <div class="tab-content">
+                <div class="tab-title">лавка у дома</div>
+                <div class="tab-subtitle">510₽</div>
+            </div>
+        </div>
+        <div class="tab" data-store="big">
+            <div class="tab-icon" style="background: #FF9500;">🏬</div>
+            <div class="tab-content">
+                <div class="tab-title">большая лавка</div>
+                <div class="tab-subtitle">252₽</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Info -->
+    <div class="delivery-info">
+        <div class="delivery-card">
+            <div class="delivery-text">
+                <div class="delivery-title">
+                    С картой <span style="color: var(--color-green);">♣️ Пай</span>
+                </div>
+                <div class="delivery-subtitle">
+                    <span id="deliveryLine">Доставка 111₽ <span class="badge-green">-20%</span> / без: 139₽</span>
+                </div>
+                <div class="delivery-subtitle" id="discountHint">Ещё 641₽, и скидка 10%</div>
+            </div>
+            <button class="icon-btn">›</button>
+        </div>
+        <div class="progress-bar">
+            <span style="font-size: 20px;">🚴</span>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+                <div class="progress-goal" aria-hidden="true"></div>
+            </div>
+            <div class="progress-stats">
+                <span id="goalPercentLabel" class="goal-chip">🎯 10%</span>
+            </div>
+            <span id="goalAmountLabel" class="goal-amount">1000₽</span>
+        </div>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="cart-items">
+        <div class="cart-item">
+            <div class="item-image">🍓</div>
+            <div class="item-details">
+                <div class="item-name">Малина Артфрут</div>
+                <div class="item-price">
+                    <span class="price-current">359₽</span>
+                    <span class="price-old">449₽</span>
+                    <span class="price-weight">· 125 г</span>
+                </div>
+            </div>
+            <div class="quantity-controls">
+                <button class="qty-btn" onclick="updateQuantity(-1)">−</button>
+                <span class="qty-value" id="qty">1</span>
+                <button class="qty-btn" onclick="updateQuantity(1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+        <div class="summary-row">
+            <span class="summary-label">Упаковка заказа ›</span>
+            <span class="summary-value">12₽</span>
+        </div>
+    </div>
+
+    <!-- Package Return -->
+    <div class="package-return">
+        <div class="return-option">
+            <div class="return-text">
+                <div class="return-title">Отдать пакеты и получить 12💜</div>
+                <div class="return-link">Какие условия ›</div>
+            </div>
+            <div class="toggle-switch" id="packageToggle" onclick="toggleSwitch(this)"></div>
+        </div>
+    </div>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner">
+        <div class="promo-card">
+            <span class="promo-badge">-50₽</span>
+            <span class="promo-text">Скидка 50₽ на Kinder Сюрприз с фиксиками ›</span>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="recommendations">
+        <h2 class="recommendations-header">Подобрали для вас</h2>
+        <div class="recommendations-grid">
+            <div class="recommendation-card" style="position: relative;">
+                <span class="rec-badge">⚡ ×2</span>
+                <div class="rec-image">🍫</div>
+            </div>
+            <div class="recommendation-card">
+                <div class="rec-image">🥤</div>
+            </div>
+            <div class="recommendation-card">
+                <div class="rec-image">🍪</div>
+            </div>
+        </div>
+        <div style="margin-top: var(--spacing-lg); font-size: var(--font-size-base);">
+            🏷️ У вас 2 промокода ›
+        </div>
+    </div>
+
+    <!-- Spacer for fixed footer -->
+    <div class="content-spacer"></div>
+
+    <!-- Checkout Footer -->
+    <div class="checkout-footer">
+        <button class="checkout-btn">
+            <span class="checkout-time">15-30 мин</span>
+            <span style="flex: 1; text-align: center;">К оплате</span>
+            <span class="checkout-price">
+                <span class="price-final">510₽</span>
+                <span class="price-original">588₽</span>
+            </span>
+        </button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item">
+            <span class="nav-icon">🏠</span>
+        </div>
+        <div class="nav-item">
+            <span class="nav-icon">📱</span>
+        </div>
+        <div class="nav-item">
+            <span class="nav-icon">👤</span>
+        </div>
+        <div class="nav-item active" style="position: relative;">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-badge">1</span>
+        </div>
+    </nav>
+
+    <script src="./config/app-config.js"></script>
+    <script src="./config/items-config.js"></script>
+    <script>
+        // Mock Data Store
+        const SCHEMA_VERSION = 2;
+        const appData = {
+            user: {
+                id: '12345',
+                hasPlus: APP_CONFIG.userDefaults.hasPlus,
+                payWithYandexPay: APP_CONFIG.userDefaults.payWithYandexPay,
+                location: APP_CONFIG.userDefaults.location,
+                deliverySpeed: APP_CONFIG.userDefaults.deliverySpeed
+            },
+            cart: {
+                storeType: 'home', // 'home' or 'big'
+                items: [
+                    {
+                        refId: 'raspberry_artfruit',
+                        quantity: 1
+                    }
+                ],
+                delivery: {
+                    time: APP_CONFIG.userDefaults.deliverySpeed,
+                    minForDiscount: 1151,
+                    currentTotal: 510
+                },
+                packaging: {
+                    cost: APP_CONFIG.packaging.fee,
+                    returnable: false,
+                    points: 12
+                }
+            },
+            recommendations: [
+                {id: 'snickers', name: 'Snickers', emoji: '🍫', promo: '×2'},
+                {id: 'drink_generic', name: 'Напиток', emoji: '🥤'},
+                {id: 'cookie_generic', name: 'Печенье', emoji: '🍪'}
+            ],
+            promos: [
+                {
+                    id: 'kinder50',
+                    discount: 50,
+                    product: 'Kinder Сюрприз с фиксиками',
+                    active: true
+                }
+            ],
+            meta: { version: SCHEMA_VERSION }
+        };
+
+        // Schema migration utilities
+        function guessRefIdFromLegacyItem(legacy) {
+            // Try match by explicit legacy id/name; fallback to known slug
+            const catalog = (window.ITEMS_CONFIG && window.ITEMS_CONFIG.catalog) || {};
+            // Match by name
+            for (const key in catalog) {
+                if (catalog[key].name === legacy.name) return key;
+            }
+            // Fallback legacy id mapping
+            if (legacy.id === 1) return 'raspberry_artfruit';
+            return null;
+        }
+
+        function migrateDataSchema(data) {
+            const migrated = JSON.parse(JSON.stringify(data || {}));
+            migrated.meta = migrated.meta || {};
+            const currentVersion = Number(migrated.meta.version || 0);
+            if (currentVersion >= SCHEMA_VERSION) return migrated;
+
+            // Ensure user defaults
+            migrated.user = migrated.user || {};
+            if (migrated.user.hasPlus == null) migrated.user.hasPlus = APP_CONFIG.userDefaults.hasPlus;
+            if (migrated.user.payWithYandexPay == null) migrated.user.payWithYandexPay = APP_CONFIG.userDefaults.payWithYandexPay;
+            if (!migrated.user.location) migrated.user.location = APP_CONFIG.userDefaults.location;
+            if (!migrated.user.deliverySpeed) migrated.user.deliverySpeed = APP_CONFIG.userDefaults.deliverySpeed;
+
+            // Items: convert to refId form
+            const items = Array.isArray(migrated.cart?.items) ? migrated.cart.items : [];
+            migrated.cart = migrated.cart || {};
+            migrated.cart.items = items.map(it => {
+                if (it && (it.refId || typeof it.refId === 'string')) {
+                    return { refId: it.refId, quantity: Number(it.quantity) || 1 };
+                }
+                const refId = guessRefIdFromLegacyItem(it || {});
+                return { refId: refId || 'raspberry_artfruit', quantity: Number(it?.quantity) || 1 };
+            });
+
+            // Packaging defaults
+            migrated.cart.packaging = migrated.cart.packaging || {};
+            if (migrated.cart.packaging.cost == null) migrated.cart.packaging.cost = APP_CONFIG.packaging.fee;
+            if (migrated.cart.packaging.returnable == null) migrated.cart.packaging.returnable = false;
+
+            // Delivery defaults
+            migrated.cart.delivery = migrated.cart.delivery || {};
+            if (!migrated.cart.delivery.time) migrated.cart.delivery.time = APP_CONFIG.userDefaults.deliverySpeed;
+
+            migrated.meta.version = SCHEMA_VERSION;
+            return migrated;
+        }
+
+        // Store/migrate data in sessionStorage for persistence
+        (function seedOrMigrate(){
+            let data;
+            try {
+                data = JSON.parse(sessionStorage.getItem('appData'));
+            } catch (e) {
+                data = null;
+            }
+            if (!data) {
+                data = appData;
+            }
+            const migrated = migrateDataSchema(data);
+            sessionStorage.setItem('appData', JSON.stringify(migrated));
+        })();
+
+        // Quantity controls
+        function updateQuantity(change) {
+            const qtyElement = document.getElementById('qty');
+            let currentQty = parseInt(qtyElement.textContent);
+            let newQty = Math.max(0, currentQty + change);
+            qtyElement.textContent = newQty;
+            
+            // Update stored data
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            if (data.cart.items[0]) {
+                data.cart.items[0].quantity = newQty;
+            }
+            sessionStorage.setItem('appData', JSON.stringify(data));
+            
+            // If quantity is 0, you might want to remove the item
+            if (newQty === 0) {
+                // Add animation or confirmation here
+            }
+
+            // Recalc totals and progress
+            recalculateCart();
+        }
+
+        // Toggle switch for package return
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+            
+            // Update stored data
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            data.cart.packaging.returnable = element.classList.contains('active');
+            sessionStorage.setItem('appData', JSON.stringify(data));
+        }
+
+        // Resolve item data from catalog by refId
+        function resolveItemByRef(refId) {
+            return (window.ITEMS_CONFIG && window.ITEMS_CONFIG.catalog && window.ITEMS_CONFIG.catalog[refId]) || null;
+        }
+
+        // Render the (single) cart item row based on catalog
+        function renderCartItemsFromCatalog() {
+            const data = JSON.parse(sessionStorage.getItem('appData')) || appData;
+            const itemRef = data.cart.items[0]?.refId;
+            const item = resolveItemByRef(itemRef);
+            if (!item) return;
+            const imgEl = document.querySelector('.cart-item .item-image');
+            const nameEl = document.querySelector('.cart-item .item-name');
+            const priceCurrentEl = document.querySelector('.cart-item .price-current');
+            const priceOldEl = document.querySelector('.cart-item .price-old');
+            const weightEl = document.querySelector('.cart-item .price-weight');
+            if (imgEl) imgEl.textContent = item.emoji || '';
+            if (nameEl) nameEl.textContent = item.name || '';
+            if (priceCurrentEl) priceCurrentEl.textContent = formatPrice(Number(item.price) || 0);
+            if (priceOldEl) {
+                if (item.oldPrice != null && Number(item.oldPrice) > Number(item.price)) {
+                    priceOldEl.style.display = '';
+                    priceOldEl.textContent = formatPrice(Number(item.oldPrice));
+                } else {
+                    priceOldEl.style.display = 'none';
+                }
+            }
+            if (weightEl) weightEl.textContent = `· ${item.weight || ''}`;
+        }
+
+        // Helpers: formatting and totals
+        function formatPrice(value) {
+            return `${value}${APP_CONFIG.currency}`;
+        }
+
+        function computeTotals(data) {
+            let itemsFinalTotal = 0;
+            let itemsOriginalTotal = 0;
+            let totalQuantity = 0;
+            (data.cart.items || []).forEach(ci => {
+                const def = resolveItemByRef(ci.refId);
+                if (!def) return;
+                const qty = Number(ci.quantity) || 0;
+                totalQuantity += qty;
+                const price = Number(def.price) || 0;
+                const old = def.oldPrice != null ? Number(def.oldPrice) : price;
+                itemsFinalTotal += price * qty;
+                itemsOriginalTotal += old * qty;
+            });
+            return { itemsFinalTotal, itemsOriginalTotal, totalQuantity };
+        }
+
+        // Determine if user uses Yandex Pay card
+        function isYandexPayEnabled(data) {
+            return Boolean(data?.user?.payWithYandexPay ?? data?.user?.hasPlus);
+        }
+
+        // Delivery fee schedule based on items total and payment method
+        function getDeliveryFee(itemsTotal, withYandexPay) {
+            const schedule = withYandexPay ? APP_CONFIG.delivery.tiers.yandexPay : APP_CONFIG.delivery.tiers.regular;
+            let fee = 0;
+            for (let i = schedule.length - 1; i >= 0; i--) {
+                if (itemsTotal >= schedule[i].threshold) {
+                    fee = schedule[i].fee;
+                    break;
+                }
+            }
+            return fee;
+        }
+
+        // Cart-size discount rate based on items total
+        function getCartDiscountRate(itemsTotal) {
+            for (const tier of APP_CONFIG.cartDiscount.tiers) {
+                if (itemsTotal > tier.threshold) return tier.rate;
+            }
+            return 0.0;
+        }
+
+        // Next discount threshold and percent
+        function getNextDiscountTarget(itemsTotal) {
+            // Find next higher threshold from config (ascending compute)
+            const thresholds = [...APP_CONFIG.cartDiscount.tiers]
+                .map(t => ({ amount: t.threshold, percent: t.percent }))
+                .sort((a, b) => a.amount - b.amount);
+            for (const t of thresholds) {
+                if (itemsTotal <= t.amount) return { nextAmount: t.amount, nextPercent: t.percent };
+            }
+            return { nextAmount: null, nextPercent: thresholds[thresholds.length - 1].percent };
+        }
+
+        // Recalculate UI: totals, progress, badges
+        function recalculateCart() {
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            if (!data || !data.cart) return;
+
+            const { itemsFinalTotal, itemsOriginalTotal, totalQuantity } = computeTotals(data);
+
+            // Delivery fee based on items total and payment method
+            const usesYandexPay = isYandexPayEnabled(data);
+            const deliveryFeeWithYP = getDeliveryFee(itemsFinalTotal, true);
+            const deliveryFeeWithoutYP = getDeliveryFee(itemsFinalTotal, false);
+            const deliveryFee = usesYandexPay ? deliveryFeeWithYP : deliveryFeeWithoutYP;
+
+            // Update delivery progress towards next cart-size discount tier
+            const target = getNextDiscountTarget(itemsFinalTotal);
+            let remaining = 0;
+            let progressPct = 100;
+            if (target.nextAmount) {
+                remaining = Math.max(0, target.nextAmount - itemsFinalTotal);
+                progressPct = Math.min(100, (itemsFinalTotal / target.nextAmount) * 100);
+            }
+
+            const progressFill = document.querySelector('.progress-fill');
+            if (progressFill) {
+                progressFill.style.width = `${progressPct}%`;
+            }
+            const hint = document.getElementById('discountHint');
+            if (hint) {
+                if (target.nextAmount && remaining > 0) {
+                    hint.textContent = `Ещё ${remaining}${APP_CONFIG.currency}, и скидка ${target.nextPercent}%`;
+                } else {
+                    const applied = Math.round(getCartDiscountRate(itemsFinalTotal) * 100);
+                    if (applied > 0) {
+                        hint.textContent = `Скидка ${applied}% применена`;
+                    } else {
+                        hint.textContent = 'Добавьте товары для скидки';
+                    }
+                }
+            }
+
+            // Update delivery text line and small label
+            const deliveryLine = document.getElementById('deliveryLine');
+            if (deliveryLine) {
+                deliveryLine.innerHTML = `Доставка ${deliveryFeeWithYP}${APP_CONFIG.currency} <span class="badge-green">-20%</span> / без: ${deliveryFeeWithoutYP}${APP_CONFIG.currency}`;
+            }
+
+            // Update goal labels (next discount tier info)
+            const goalPercentEl = document.getElementById('goalPercentLabel');
+            const goalAmountEl = document.getElementById('goalAmountLabel');
+            if (goalPercentEl && goalAmountEl) {
+                if (target.nextAmount) {
+                    goalPercentEl.textContent = `🎯 ${target.nextPercent}%`;
+                    goalAmountEl.textContent = formatPrice(target.nextAmount);
+                } else {
+                    const applied = Math.round(getCartDiscountRate(itemsFinalTotal) * 100);
+                    goalPercentEl.textContent = `🎯 ${applied}%`;
+                    goalAmountEl.textContent = '';
+                }
+            }
+
+            // Update checkout totals (items only)
+            const packagingFee = Number(data.cart.packaging?.cost) || 0;
+            const originalTotal = itemsOriginalTotal + packagingFee + deliveryFee;
+            const preDiscountFinalTotal = itemsFinalTotal + packagingFee + deliveryFee;
+            const rate = getCartDiscountRate(itemsFinalTotal);
+            const finalAfterDiscount = Math.round(preDiscountFinalTotal * (1 - rate));
+
+            const priceFinalEl = document.querySelector('.checkout-price .price-final');
+            const priceOriginalEl = document.querySelector('.checkout-price .price-original');
+            if (priceFinalEl) priceFinalEl.textContent = formatPrice(finalAfterDiscount);
+            if (priceOriginalEl) {
+                if (originalTotal > finalAfterDiscount) {
+                    priceOriginalEl.style.display = '';
+                    priceOriginalEl.textContent = formatPrice(originalTotal);
+                } else {
+                    priceOriginalEl.style.display = 'none';
+                }
+            }
+
+            // Update bottom nav cart badge
+            const navBadge = document.querySelector('.bottom-nav .nav-badge');
+            if (navBadge) {
+                navBadge.textContent = String(totalQuantity);
+            }
+
+            // Update active tab subtitle with items-only total (after per-item discounts; excludes delivery/packaging)
+            const activeTabSubtitle = document.querySelector('.tabs .tab.active .tab-subtitle');
+            if (activeTabSubtitle) {
+                activeTabSubtitle.textContent = formatPrice(itemsFinalTotal);
+            }
+
+            // Persist currentTotal for delivery section
+            data.cart.delivery.currentTotal = itemsFinalTotal;
+            sessionStorage.setItem('appData', JSON.stringify(data));
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update store type in data
+                const storeType = this.dataset.store;
+                const data = JSON.parse(sessionStorage.getItem('appData'));
+                data.cart.storeType = storeType;
+                sessionStorage.setItem('appData', JSON.stringify(data));
+
+                // Recalc to refresh tab subtitle
+                recalculateCart();
+            });
+        });
+
+        // Prevent pull-to-refresh on iOS
+        let lastY = 0;
+        document.addEventListener('touchstart', function(e) {
+            lastY = e.touches[0].clientY;
+        }, {passive: false});
+
+        document.addEventListener('touchmove', function(e) {
+            const y = e.touches[0].clientY;
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            
+            if (scrollTop === 0 && y > lastY) {
+                e.preventDefault();
+            }
+        }, {passive: false});
+
+        // Initialize
+        window.addEventListener('load', function() {
+            // Load saved state
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            if (data && data.cart.items[0]) {
+                document.getElementById('qty').textContent = data.cart.items[0].quantity;
+            }
+            if (data && data.cart.packaging.returnable) {
+                document.getElementById('packageToggle').classList.add('active');
+            }
+            // Sync delivery ETA from user state
+            const timeEl = document.querySelector('.checkout-time');
+            if (timeEl && data?.user?.deliverySpeed) {
+                timeEl.textContent = data.user.deliverySpeed;
+            }
+
+            // Render items UI from catalog
+            renderCartItemsFromCatalog();
+
+            // Initial totals/progress
+            recalculateCart();
+        });
+    </script>
+</body>
+</html>
