@@ -23,9 +23,9 @@
         cartDiscount: {
             // Sorted descending by threshold; rate is fraction (0.10 = 10%)
             tiers: [
-                { threshold: 3000, rate: 0.30, percent: 30 },
-                { threshold: 2000, rate: 0.20, percent: 20 },
-                { threshold: 1000, rate: 0.10, percent: 10 }
+                { threshold: 3500, rate: 0.30, percent: 30 },
+                { threshold: 2500, rate: 0.20, percent: 20 },
+                { threshold: 1500, rate: 0.10, percent: 10 }
             ]
         },
         userDefaults: {

@@ -8,8 +8,16 @@
                 price: 359,
                 oldPrice: 449,
                 weight: '125 г',
+                image: '/Users/nikitobot/app_prototyping/assets/images/malina_artfrut.jpeg',
                 emoji: '🍓',
                 category: 'fruits'
+            },
+            snickers_ice_cream: {
+                id: 'snickers_ice_cream',
+                name: 'Мороженое Snickers',
+                price: 199,
+                image: '/Users/nikitobot/app_prototyping/assets/images/snickers.png',
+                emoji: '🍦'
             }
         }
     };

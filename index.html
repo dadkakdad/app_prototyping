@@ -96,10 +96,12 @@
         /* Design System - Variables */
         :root {
             /* Colors */
-            --color-primary: #FFCC00;
-            --color-primary-dark: #FFB800;
+            --color-primary: #FCE000;
+            --color-primary-dark: #E8CD00;
             --color-green: #00B341;
             --color-red: #FF3333;
+            --color-orange: #EF6C00;
+            --color-pay-green: #006933;
             --color-text-primary: #000000;
             --color-text-secondary: #666666;
             --color-text-tertiary: #999999;
@@ -108,6 +110,8 @@
             --color-bg-card: #F8F8F8;
             --color-border: #E8E8E8;
             --color-badge-blue: #00AAFF;
+            --color-image-bg: #F8F7F5;
+            --color-qty-bg: #5C5A571A;
             
             /* Typography */
             --font-family: 'YS Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -146,7 +150,7 @@
             font-family: var(--font-family);
             font-size: var(--font-size-base);
             color: var(--color-text-primary);
-            background: var(--color-bg-secondary);
+            background: var(--color-bg-primary);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             touch-action: manipulation;
@@ -220,9 +224,9 @@
 
         .tab {
             flex: 1;
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--radius-full);
-            border: 2px solid var(--color-border);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-xl);
+            border: 1.5px solid var(--color-border);
             background: var(--color-bg-primary);
             display: flex;
             align-items: center;
@@ -233,18 +237,26 @@
 
         .tab.active {
             border-color: var(--color-primary);
-            background: #FFFBF0;
+            border-width: 2px;
+            background: transparent;
         }
 
         .tab-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: var(--radius-sm);
-            background: var(--color-green);
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: var(--color-bg-card);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
+            overflow: hidden;
+        }
+
+        .tab-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .tab-content {
@@ -253,7 +265,7 @@
 
         .tab-title {
             font-size: var(--font-size-sm);
-            font-weight: 600;
+            font-weight: 500;
             color: var(--color-text-primary);
         }
 
@@ -264,124 +276,185 @@
 
         /* Delivery Info */
         .delivery-info {
-            background: var(--color-bg-primary);
+            background: var(--color-bg-card);
             padding: var(--spacing-lg);
-            border-bottom: 8px solid var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            margin: 0 var(--spacing-lg) 8px;
         }
 
-        .delivery-card {
-            background: var(--color-bg-card);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
+        .delivery-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
         }
 
-        .delivery-text {
-            flex: 1;
-        }
-
-        .delivery-title {
+        .delivery-main {
             font-size: var(--font-size-base);
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--color-pay-green);
         }
 
-        .delivery-subtitle {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-        }
-
-        .badge-green {
-            background: var(--color-green);
-            color: white;
-            padding: 2px 8px;
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-        }
-
-        .progress-bar {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            margin-top: var(--spacing-md);
-        }
-
-        .progress-track {
-            flex: 1;
-            height: 10px;
-            background: var(--color-border);
-            border-radius: var(--radius-full);
-            position: relative;
-            overflow: visible;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
-        }
-
-        .progress-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            background: linear-gradient(90deg, #00C853 0%, var(--color-green) 100%);
-            border-radius: var(--radius-full);
-            width: 70%;
-            transition: width 300ms ease;
-        }
-
-        .progress-goal {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 2px;
-            height: 100%;
-            background: var(--color-red);
-            border-radius: var(--radius-full);
-        }
-
-        .progress-goal::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -4px;
-            transform: translateY(-50%);
-            width: 8px;
-            height: 8px;
-            background: var(--color-red);
-            border-radius: 50%;
-            box-shadow: 0 0 0 3px rgba(255,51,51,0.15);
-        }
-
-        .progress-min {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            min-width: 60px;
-        }
-
-        .progress-stats {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            min-width: 110px;
-            justify-content: flex-start;
-        }
-
-        .goal-chip {
-            font-size: var(--font-size-sm);
-            color: var(--color-red);
-            background: #FFF5F5;
-            border: 1px solid rgba(255,51,51,0.25);
-            padding: 2px 6px;
-            border-radius: var(--radius-full);
+        .delivery-fee-value {
             font-weight: 700;
         }
 
-        .goal-amount {
-            font-size: var(--font-size-base);
+        #delivery-original-cost {
+            color: var(--color-text-tertiary);
+        }
+
+        .delivery-hint {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            margin-top: var(--spacing-xs);
+        }
+
+        .badge-green {
+            background: var(--color-pay-green);
+            color: white;
+            padding: 2px 6px;
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
             font-weight: 600;
+            margin: 0 var(--spacing-xs);
+        }
+
+        .progress-bar-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 24px; /* Increased padding */
+            scrollbar-width: auto; /* For Firefox */
+        }
+
+        /* Hide scrollbar on touch devices for a cleaner look */
+        @media (hover: none) and (pointer: coarse) {
+            .progress-bar-container {
+                scrollbar-width: none; /* For Firefox */
+            }
+            .progress-bar-container::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        .progress-bar-scroll {
+            display: flex;
+            align-items: center;
+            min-width: 450px; /* Make it wider to be scrollable */
+        }
+
+        .progress-bar-track {
+            flex-grow: 1;
+            height: 12px;
+            background-color: var(--color-border);
+            border-radius: var(--radius-full);
+            position: relative;
+            display: flex;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--color-pay-green);
+            border-radius: var(--radius-full);
+            transition: width 0.3s ease-in-out;
+        }
+
+        .progress-segment {
+            height: 100%;
+            border-radius: var(--radius-full);
+        }
+
+        .milestone {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .milestone-label-top {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            white-space: nowrap;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            background-color: var(--color-bg-card);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            color: var(--color-text-primary);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .milestone-label {
+             position: absolute;
+             top: 50%;
+             left: 50%;
+             transform: translateX(-50%);
+             margin-top: 10px;
+             font-size: var(--font-size-sm);
+             font-weight: 500;
+             color: var(--color-text-tertiary);
+             white-space: nowrap;
+        }
+        
+        .milestone::after {
+            content: '';
+            position: absolute;
+            height: 16px;
+            width: 4px;
+            background: var(--color-bg-card);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .milestone.milestone-first {
+            transform: translate(0, -50%);
+        }
+
+        .milestone.milestone-last {
+            transform: translate(-100%, -50%);
+        }
+
+        .milestone.milestone-first::after,
+        .milestone.milestone-last::after {
+            display: none;
+        }
+
+        .milestone-first .milestone-label {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        .milestone-last .milestone-label {
+            left: 100%;
+            transform: translateX(-100%);
+        }
+
+        .milestone.complete .milestone-label {
+            color: var(--color-pay-green);
+        }
+
+        .milestone.discount .milestone-label {
+            color: var(--color-orange);
+            font-weight: 700;
+        }
+        
+        .discount-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--color-orange);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            margin-right: 4px;
+            vertical-align: middle;
         }
 
         /* Cart Items */
@@ -394,17 +467,18 @@
             display: flex;
             gap: var(--spacing-md);
             padding: var(--spacing-md) 0;
+            align-items: center;
         }
 
         .item-image {
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-sm);
-            background: var(--color-bg-card);
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-lg);
+            background: var(--color-image-bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            padding: var(--spacing-sm);
         }
 
         .item-details {
@@ -426,13 +500,28 @@
         .price-current {
             font-size: var(--font-size-base);
             font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .price-current.has-discount {
             color: var(--color-red);
         }
 
         .price-old {
             font-size: var(--font-size-sm);
             color: var(--color-text-tertiary);
-            text-decoration: line-through;
+            position: relative;
+        }
+
+        .price-old::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background-color: var(--color-red);
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
         }
 
         .price-weight {
@@ -443,32 +532,37 @@
         .quantity-controls {
             display: flex;
             align-items: center;
-            gap: var(--spacing-lg);
+            background: var(--color-qty-bg);
+            border-radius: var(--radius-lg);
+            padding: 0 var(--spacing-xs);
+            height: 36px;
         }
 
-        .qty-btn {
+        .quantity-controls .qty-btn {
             width: 36px;
-            height: 36px;
+            height: 100%;
             border-radius: var(--radius-full);
-            border: 2px solid var(--color-border);
-            background: var(--color-bg-primary);
+            border: none;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: var(--font-size-lg);
+            font-size: var(--font-size-base);
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .qty-btn:active {
             transform: scale(0.95);
+            background-color: rgba(0,0,0,0.05);
         }
 
         .qty-value {
-            font-size: var(--font-size-md);
+            font-size: var(--font-size-sm);
             font-weight: 600;
             min-width: 20px;
             text-align: center;
+            line-height: 1;
         }
 
         /* Order Summary */
@@ -761,14 +855,14 @@
     <!-- Tabs -->
     <div class="tabs">
         <div class="tab active" data-store="home">
-            <div class="tab-icon">🏪</div>
+            <div class="tab-icon"></div>
             <div class="tab-content">
                 <div class="tab-title">лавка у дома</div>
                 <div class="tab-subtitle">510₽</div>
             </div>
         </div>
         <div class="tab" data-store="big">
-            <div class="tab-icon" style="background: #FF9500;">🏬</div>
+            <div class="tab-icon">🏬</div>
             <div class="tab-content">
                 <div class="tab-title">большая лавка</div>
                 <div class="tab-subtitle">252₽</div>
@@ -778,28 +872,26 @@
 
     <!-- Delivery Info -->
     <div class="delivery-info">
-        <div class="delivery-card">
+        <div class="delivery-header">
             <div class="delivery-text">
-                <div class="delivery-title">
-                    С картой <span style="color: var(--color-green);">♣️ Пай</span>
+                <div class="delivery-main">
+                    С картой <img src="assets/Я.svg" alt="Яндекс Пэй" style="height: 1em; vertical-align: middle; margin-right: 2px;"> <span style="color: var(--color-pay-green);">Пэй</span><br>
+                    <span id="delivery-cost">Доставка <strong class="delivery-fee-value">95₽</strong></span>
+                    <span id="delivery-discount" class="badge-green">-20%</span>
+                    <span id="delivery-original-cost">/ без: 119₽</span>
                 </div>
-                <div class="delivery-subtitle">
-                    <span id="deliveryLine">Доставка 111₽ <span class="badge-green">-20%</span> / без: 139₽</span>
+                <div class="delivery-hint" id="delivery-hint">
+                    Ещё 801₽, и будет 63₽
                 </div>
-                <div class="delivery-subtitle" id="discountHint">Ещё 641₽, и скидка 10%</div>
             </div>
             <button class="icon-btn">›</button>
         </div>
-        <div class="progress-bar">
-            <span style="font-size: 20px;">🚴</span>
-            <div class="progress-track">
-                <div class="progress-fill"></div>
-                <div class="progress-goal" aria-hidden="true"></div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-scroll">
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill"></div>
+                </div>
             </div>
-            <div class="progress-stats">
-                <span id="goalPercentLabel" class="goal-chip">🎯 10%</span>
-            </div>
-            <span id="goalAmountLabel" class="goal-amount">1000₽</span>
         </div>
     </div>
 
@@ -816,9 +908,9 @@
                 </div>
             </div>
             <div class="quantity-controls">
-                <button class="qty-btn" onclick="updateQuantity(-1)">−</button>
+                <button class="qty-btn" onclick="updateQuantity('raspberry_artfruit', -1)">−</button>
                 <span class="qty-value" id="qty">1</span>
-                <button class="qty-btn" onclick="updateQuantity(1)">+</button>
+                <button class="qty-btn" onclick="updateQuantity('raspberry_artfruit', 1)">+</button>
             </div>
         </div>
     </div>
@@ -915,23 +1007,29 @@
                 location: APP_CONFIG.userDefaults.location,
                 deliverySpeed: APP_CONFIG.userDefaults.deliverySpeed
             },
-            cart: {
-                storeType: 'home', // 'home' or 'big'
-                items: [
-                    {
-                        refId: 'raspberry_artfruit',
-                        quantity: 1
+            activeCartId: 'home',
+            carts: {
+                home: {
+                    items: [
+                        { refId: 'raspberry_artfruit', quantity: 1 }
+                    ],
+                    delivery: {
+                        time: APP_CONFIG.userDefaults.deliverySpeed,
+                        minForDiscount: 1151,
+                        currentTotal: 510
+                    },
+                    packaging: {
+                        cost: APP_CONFIG.packaging.fee,
+                        returnable: false,
+                        points: 12
                     }
-                ],
-                delivery: {
-                    time: APP_CONFIG.userDefaults.deliverySpeed,
-                    minForDiscount: 1151,
-                    currentTotal: 510
                 },
-                packaging: {
-                    cost: APP_CONFIG.packaging.fee,
-                    returnable: false,
-                    points: 12
+                big: {
+                    items: [
+                        { refId: 'snickers_ice_cream', quantity: 2 }
+                    ],
+                    delivery: {},
+                    packaging: { cost: APP_CONFIG.packaging.fee }
                 }
             },
             recommendations: [
@@ -962,80 +1060,107 @@
             if (legacy.id === 1) return 'raspberry_artfruit';
             return null;
         }
-
-        function migrateDataSchema(data) {
-            const migrated = JSON.parse(JSON.stringify(data || {}));
-            migrated.meta = migrated.meta || {};
-            const currentVersion = Number(migrated.meta.version || 0);
-            if (currentVersion >= SCHEMA_VERSION) return migrated;
-
-            // Ensure user defaults
-            migrated.user = migrated.user || {};
-            if (migrated.user.hasPlus == null) migrated.user.hasPlus = APP_CONFIG.userDefaults.hasPlus;
-            if (migrated.user.payWithYandexPay == null) migrated.user.payWithYandexPay = APP_CONFIG.userDefaults.payWithYandexPay;
-            if (!migrated.user.location) migrated.user.location = APP_CONFIG.userDefaults.location;
-            if (!migrated.user.deliverySpeed) migrated.user.deliverySpeed = APP_CONFIG.userDefaults.deliverySpeed;
-
-            // Items: convert to refId form
-            const items = Array.isArray(migrated.cart?.items) ? migrated.cart.items : [];
-            migrated.cart = migrated.cart || {};
-            migrated.cart.items = items.map(it => {
-                if (it && (it.refId || typeof it.refId === 'string')) {
-                    return { refId: it.refId, quantity: Number(it.quantity) || 1 };
+    
+            function migrateDataSchema(data) {
+                const migrated = JSON.parse(JSON.stringify(data || {}));
+                migrated.meta = migrated.meta || {};
+                const currentVersion = Number(migrated.meta.version || 0);
+                if (currentVersion >= SCHEMA_VERSION) {
+                    if (!migrated.carts) { // Handle case where old structure exists despite version
+                         migrated.carts = { home: migrated.cart || {}, big: { items:[] } };
+                         migrated.activeCartId = migrated.activeCartId || 'home';
+                         delete migrated.cart;
+                    }
+                    return migrated;
                 }
-                const refId = guessRefIdFromLegacyItem(it || {});
-                return { refId: refId || 'raspberry_artfruit', quantity: Number(it?.quantity) || 1 };
-            });
+    
+                // If we are migrating from a pre-multi-cart version
+                if (migrated.cart) {
+                    migrated.carts = {
+                        home: migrated.cart,
+                        big: { items: [], delivery: {}, packaging: { cost: APP_CONFIG.packaging.fee } }
+                    };
+                    delete migrated.cart;
+                }
+                migrated.activeCartId = migrated.activeCartId || 'home';
+                migrated.carts = migrated.carts || { home: {items:[]}, big: {items:[]} };
+    
+                // Ensure user defaults
+                migrated.user = migrated.user || {};
+                if (migrated.user.hasPlus == null) migrated.user.hasPlus = APP_CONFIG.userDefaults.hasPlus;
+                if (migrated.user.payWithYandexPay == null) migrated.user.payWithYandexPay = APP_CONFIG.userDefaults.payWithYandexPay;
+                if (!migrated.user.location) migrated.user.location = APP_CONFIG.userDefaults.location;
+                if (!migrated.user.deliverySpeed) migrated.user.deliverySpeed = APP_CONFIG.userDefaults.deliverySpeed;
+    
+                // Update items in both carts if they exist
+                for (const cartId in migrated.carts) {
+                    const cart = migrated.carts[cartId] || { items: [] };
+                    const items = Array.isArray(cart.items) ? cart.items : [];
+                    cart.items = items.map(it => {
+                        if (it && (it.refId || typeof it.refId === 'string')) {
+                            return { refId: it.refId, quantity: Number(it.quantity) || 1 };
+                        }
+                        const refId = guessRefIdFromLegacyItem(it || {});
+                        return { refId: refId || 'raspberry_artfruit', quantity: Number(it?.quantity) || 1 };
+                    });
+    
+                    // Packaging defaults
+                    cart.packaging = cart.packaging || {};
+                    if (cart.packaging.cost == null) cart.packaging.cost = APP_CONFIG.packaging.fee;
+                    if (cart.packaging.returnable == null) cart.packaging.returnable = false;
+    
+                    // Delivery defaults
+                    cart.delivery = cart.delivery || {};
+                    if (!cart.delivery.time) cart.delivery.time = APP_CONFIG.userDefaults.deliverySpeed;
+                }
+    
+                migrated.meta.version = SCHEMA_VERSION;
+                return migrated;
+            }
+    
+            // Store/migrate data in sessionStorage for persistence
+            (function seedOrMigrate(){
+                let data;
+                try {
+                    data = JSON.parse(sessionStorage.getItem('appData'));
+                } catch (e) {
+                    data = null;
+                }
+                if (!data) {
+                    data = appData;
+                }
+                const migrated = migrateDataSchema(data);
+                sessionStorage.setItem('appData', JSON.stringify(migrated));
+            })();
 
-            // Packaging defaults
-            migrated.cart.packaging = migrated.cart.packaging || {};
-            if (migrated.cart.packaging.cost == null) migrated.cart.packaging.cost = APP_CONFIG.packaging.fee;
-            if (migrated.cart.packaging.returnable == null) migrated.cart.packaging.returnable = false;
-
-            // Delivery defaults
-            migrated.cart.delivery = migrated.cart.delivery || {};
-            if (!migrated.cart.delivery.time) migrated.cart.delivery.time = APP_CONFIG.userDefaults.deliverySpeed;
-
-            migrated.meta.version = SCHEMA_VERSION;
-            return migrated;
+        function getActiveCart() {
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            if (data && data.carts && data.carts[data.activeCartId]) {
+                return data.carts[data.activeCartId];
+            }
+            // Return a default empty cart structure to prevent errors
+            return { items: [], delivery: {}, packaging: {} };
         }
 
-        // Store/migrate data in sessionStorage for persistence
-        (function seedOrMigrate(){
-            let data;
-            try {
-                data = JSON.parse(sessionStorage.getItem('appData'));
-            } catch (e) {
-                data = null;
-            }
-            if (!data) {
-                data = appData;
-            }
-            const migrated = migrateDataSchema(data);
-            sessionStorage.setItem('appData', JSON.stringify(migrated));
-        })();
-
         // Quantity controls
-        function updateQuantity(change) {
-            const qtyElement = document.getElementById('qty');
-            let currentQty = parseInt(qtyElement.textContent);
-            let newQty = Math.max(0, currentQty + change);
-            qtyElement.textContent = newQty;
-            
-            // Update stored data
+        function updateQuantity(refId, change) {
             const data = JSON.parse(sessionStorage.getItem('appData'));
-            if (data.cart.items[0]) {
-                data.cart.items[0].quantity = newQty;
+            const cart = data.carts[data.activeCartId];
+            const item = cart.items.find(it => it.refId === refId);
+
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    // Remove item if quantity is 0 or less
+                    cart.items = cart.items.filter(it => it.refId !== refId);
+                }
             }
+            
             sessionStorage.setItem('appData', JSON.stringify(data));
             
-            // If quantity is 0, you might want to remove the item
-            if (newQty === 0) {
-                // Add animation or confirmation here
-            }
-
-            // Recalc totals and progress
+            renderCartItems();
             recalculateCart();
+            updateDeliveryInfo();
         }
 
         // Toggle switch for package return
@@ -1044,7 +1169,8 @@
             
             // Update stored data
             const data = JSON.parse(sessionStorage.getItem('appData'));
-            data.cart.packaging.returnable = element.classList.contains('active');
+            const cart = data.carts[data.activeCartId];
+            cart.packaging.returnable = element.classList.contains('active');
             sessionStorage.setItem('appData', JSON.stringify(data));
         }
 
@@ -1054,28 +1180,52 @@
         }
 
         // Render the (single) cart item row based on catalog
-        function renderCartItemsFromCatalog() {
-            const data = JSON.parse(sessionStorage.getItem('appData')) || appData;
-            const itemRef = data.cart.items[0]?.refId;
-            const item = resolveItemByRef(itemRef);
-            if (!item) return;
-            const imgEl = document.querySelector('.cart-item .item-image');
-            const nameEl = document.querySelector('.cart-item .item-name');
-            const priceCurrentEl = document.querySelector('.cart-item .price-current');
-            const priceOldEl = document.querySelector('.cart-item .price-old');
-            const weightEl = document.querySelector('.cart-item .price-weight');
-            if (imgEl) imgEl.textContent = item.emoji || '';
-            if (nameEl) nameEl.textContent = item.name || '';
-            if (priceCurrentEl) priceCurrentEl.textContent = formatPrice(Number(item.price) || 0);
-            if (priceOldEl) {
-                if (item.oldPrice != null && Number(item.oldPrice) > Number(item.price)) {
-                    priceOldEl.style.display = '';
-                    priceOldEl.textContent = formatPrice(Number(item.oldPrice));
-                } else {
-                    priceOldEl.style.display = 'none';
-                }
+        function renderCartItems() {
+            const cart = getActiveCart();
+            const cartContainer = document.querySelector('.cart-items');
+            cartContainer.innerHTML = ''; // Clear existing items
+
+            if (!cart || !cart.items || cart.items.length === 0) {
+                cartContainer.innerHTML = '<p style="text-align: center; color: var(--color-text-secondary);">Корзина пуста</p>';
+                return;
             }
-            if (weightEl) weightEl.textContent = `· ${item.weight || ''}`;
+
+            cart.items.forEach(cartItem => {
+                const itemDef = resolveItemByRef(cartItem.refId);
+                if (!itemDef) return;
+
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+
+                const priceOldHTML = itemDef.oldPrice && itemDef.oldPrice > itemDef.price 
+                    ? `<span class="price-old">${formatPrice(itemDef.oldPrice)}</span>` 
+                    : '';
+                
+                const imageHTML = itemDef.image 
+                    ? `<img src="${itemDef.image}" alt="${itemDef.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-sm);">`
+                    : itemDef.emoji || '';
+                
+                const weightHTML = itemDef.weight ? `<span class="price-weight">· ${itemDef.weight}</span>` : '';
+                const hasDiscount = itemDef.oldPrice && itemDef.oldPrice > itemDef.price;
+
+                itemEl.innerHTML = `
+                    <div class="item-image">${imageHTML}</div>
+                    <div class="item-details">
+                        <div class="item-name">${itemDef.name}</div>
+                        <div class="item-price">
+                            <span class="price-current ${hasDiscount ? 'has-discount' : ''}">${formatPrice(itemDef.price)}</span>
+                            ${priceOldHTML}
+                            ${weightHTML}
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="updateQuantity('${cartItem.refId}', -1)">−</button>
+                        <span class="qty-value">${cartItem.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity('${cartItem.refId}', 1)">+</button>
+                    </div>
+                `;
+                cartContainer.appendChild(itemEl);
+            });
         }
 
         // Helpers: formatting and totals
@@ -1083,11 +1233,12 @@
             return `${value}${APP_CONFIG.currency}`;
         }
 
-        function computeTotals(data) {
+        function computeCartTotals(cart) {
+            if (!cart) return { itemsFinalTotal: 0, itemsOriginalTotal: 0, totalQuantity: 0 };
             let itemsFinalTotal = 0;
             let itemsOriginalTotal = 0;
             let totalQuantity = 0;
-            (data.cart.items || []).forEach(ci => {
+            (cart.items || []).forEach(ci => {
                 const def = resolveItemByRef(ci.refId);
                 if (!def) return;
                 const qty = Number(ci.quantity) || 0;
@@ -1098,6 +1249,11 @@
                 itemsOriginalTotal += old * qty;
             });
             return { itemsFinalTotal, itemsOriginalTotal, totalQuantity };
+        }
+
+        function computeTotals(data) {
+            const cart = data.carts[data.activeCartId];
+            return computeCartTotals(cart);
         }
 
         // Determine if user uses Yandex Pay card
@@ -1138,10 +1294,175 @@
             return { nextAmount: null, nextPercent: thresholds[thresholds.length - 1].percent };
         }
 
+        function renderMilestones() {
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            const usesYandexPay = isYandexPayEnabled(data);
+            const deliveryTiers = [...(usesYandexPay ? APP_CONFIG.delivery.tiers.yandexPay : APP_CONFIG.delivery.tiers.regular)].sort((a,b) => a.threshold - b.threshold);
+            const discountTiers = APP_CONFIG.cartDiscount.tiers;
+            const track = document.querySelector('.progress-bar-track');
+            
+            track.innerHTML = '<div class="progress-bar-fill"></div>';
+
+            const hereMarker = document.createElement('div');
+            hereMarker.className = 'milestone';
+            hereMarker.id = 'here-marker';
+            const hereLabel = document.createElement('div');
+            hereLabel.className = 'milestone-label-top';
+            hereLabel.textContent = 'Вы здесь';
+            hereMarker.appendChild(hereLabel);
+            track.appendChild(hereMarker);
+
+            const allTiers = [
+                ...deliveryTiers.map(t => ({ ...t, type: 'delivery' })),
+                ...discountTiers.map(t => ({ ...t, type: 'discount' }))
+            ];
+            const maxThreshold = Math.max(...allTiers.map(t => t.threshold));
+            
+            allTiers.forEach(tier => {
+                const milestoneEl = document.createElement('div');
+                milestoneEl.className = 'milestone';
+                milestoneEl.dataset.threshold = tier.threshold;
+                
+                let labelText = '';
+                let iconHTML = '';
+
+                if (tier.type === 'delivery') {
+                    milestoneEl.dataset.fee = tier.fee;
+                    labelText = `${tier.fee}₽`;
+                } else { // discount
+                    if (tier.threshold === 0) return;
+                    milestoneEl.classList.add('discount');
+                    milestoneEl.dataset.percent = tier.percent;
+                    labelText = `${tier.percent}%`;
+                    iconHTML = '<span class="discount-icon">%</span> ';
+                }
+                
+                const positionPct = (tier.threshold / maxThreshold) * 100;
+                milestoneEl.style.left = `${positionPct}%`;
+
+                if (positionPct === 0) {
+                    milestoneEl.classList.add('milestone-first');
+                }
+                if (positionPct === 100) {
+                    milestoneEl.classList.add('milestone-last');
+                }
+
+                milestoneEl.innerHTML = `
+                    <div class="milestone-label">${iconHTML}${labelText}</div>
+                `;
+                track.appendChild(milestoneEl);
+            });
+        }
+
+        function updateDeliveryInfo() {
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            const { itemsFinalTotal } = computeTotals(data);
+            const usesYandexPay = isYandexPayEnabled(data);
+
+            const deliveryTiers = usesYandexPay ? APP_CONFIG.delivery.tiers.yandexPay : APP_CONFIG.delivery.tiers.regular;
+            const deliveryFee = getDeliveryFee(itemsFinalTotal, usesYandexPay);
+            const originalFee = getDeliveryFee(itemsFinalTotal, false);
+
+            document.getElementById('delivery-cost').innerHTML = `Доставка <strong class="delivery-fee-value">${deliveryFee}₽</strong>`;
+            const discountBadge = document.getElementById('delivery-discount');
+            const originalCostEl = document.getElementById('delivery-original-cost');
+
+            if (usesYandexPay && deliveryFee < originalFee) {
+                const discountPct = Math.round((1 - deliveryFee / originalFee) * 100);
+                discountBadge.textContent = `-${discountPct}%`;
+                discountBadge.style.display = 'inline-block';
+                originalCostEl.textContent = `/ без: ${originalFee}₽`;
+            } else {
+                discountBadge.style.display = 'none';
+                originalCostEl.textContent = '';
+            }
+
+            const nextTier = deliveryTiers.find(tier => itemsFinalTotal < tier.threshold);
+            const hintEl = document.getElementById('delivery-hint');
+            if (nextTier) {
+                const remaining = nextTier.threshold - itemsFinalTotal;
+                hintEl.textContent = `Ещё ${remaining}₽, и будет ${nextTier.fee}₽`;
+            } else {
+                hintEl.textContent = deliveryFee === 0 ? 'Доставка бесплатная' : '';
+            }
+
+            const progressBarFill = document.querySelector('.progress-bar-fill');
+            const allTiers = [
+                ...deliveryTiers.map(t => ({ ...t, type: 'delivery' })),
+                ...APP_CONFIG.cartDiscount.tiers.map(t => ({ ...t, type: 'discount' }))
+            ];
+            const maxThreshold = Math.max(...allTiers.map(t => t.threshold || 0));
+
+            const hereMarker = document.getElementById('here-marker');
+            if (hereMarker) {
+                const herePosition = Math.min(100, (itemsFinalTotal / maxThreshold) * 100);
+                hereMarker.style.left = `${herePosition}%`;
+            }
+
+            const progressPercentage = Math.min(100, (itemsFinalTotal / maxThreshold) * 100);
+            progressBarFill.style.width = `${progressPercentage}%`;
+
+            const milestones = document.querySelectorAll('.milestone');
+            milestones.forEach(milestone => {
+                const threshold = parseInt(milestone.dataset.threshold);
+                if (isNaN(threshold)) return;
+
+                const isComplete = itemsFinalTotal >= threshold;
+                milestone.classList.toggle('complete', isComplete);
+
+                if (milestone.classList.contains('discount')) {
+                    // No special 'active' state for discounts, only 'complete'
+                } else {
+                    const fee = parseInt(milestone.dataset.fee);
+                    const isActive = deliveryFee === fee;
+                    milestone.classList.toggle('active', isActive);
+                }
+            });
+        }
+
+        function updateTabIcons() {
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            if (!data || !data.carts) return;
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                const storeId = tab.dataset.store;
+                const cart = data.carts[storeId];
+                const iconContainer = tab.querySelector('.tab-icon');
+                if (!iconContainer) return;
+
+                const firstItem = cart && cart.items.length > 0 ? resolveItemByRef(cart.items[0].refId) : null;
+
+                if (firstItem && firstItem.image) {
+                    iconContainer.innerHTML = `<img src="${firstItem.image}" alt="${firstItem.name}">`;
+                } else if (firstItem && firstItem.emoji) {
+                    iconContainer.innerHTML = firstItem.emoji;
+                } else {
+                    iconContainer.innerHTML = storeId === 'home' ? '🏪' : '🏬';
+                }
+            });
+        }
+
+        function updateAllTabSubtitles() {
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            if (!data || !data.carts) return;
+
+            for (const cartId in data.carts) {
+                const cart = data.carts[cartId];
+                const { itemsFinalTotal } = computeCartTotals(cart);
+                const tab = document.querySelector(`.tab[data-store="${cartId}"]`);
+                if (tab) {
+                    const subtitleEl = tab.querySelector('.tab-subtitle');
+                    if (subtitleEl) {
+                        subtitleEl.textContent = formatPrice(itemsFinalTotal);
+                    }
+                }
+            }
+        }
+
         // Recalculate UI: totals, progress, badges
         function recalculateCart() {
             const data = JSON.parse(sessionStorage.getItem('appData'));
-            if (!data || !data.cart) return;
+            if (!data || !data.carts) return;
 
             const { itemsFinalTotal, itemsOriginalTotal, totalQuantity } = computeTotals(data);
 
@@ -1160,11 +1481,11 @@
                 progressPct = Math.min(100, (itemsFinalTotal / target.nextAmount) * 100);
             }
 
-            const progressFill = document.querySelector('.progress-fill');
+            const progressFill = document.querySelector('.progress-bar-fill');
             if (progressFill) {
                 progressFill.style.width = `${progressPct}%`;
             }
-            const hint = document.getElementById('discountHint');
+            const hint = document.getElementById('delivery-hint');
             if (hint) {
                 if (target.nextAmount && remaining > 0) {
                     hint.textContent = `Ещё ${remaining}${APP_CONFIG.currency}, и скидка ${target.nextPercent}%`;
@@ -1199,7 +1520,7 @@
             }
 
             // Update checkout totals (items only)
-            const packagingFee = Number(data.cart.packaging?.cost) || 0;
+            const packagingFee = Number(data.carts[data.activeCartId].packaging?.cost) || 0;
             const originalTotal = itemsOriginalTotal + packagingFee + deliveryFee;
             const preDiscountFinalTotal = itemsFinalTotal + packagingFee + deliveryFee;
             const rate = getCartDiscountRate(itemsFinalTotal);
@@ -1223,31 +1544,40 @@
                 navBadge.textContent = String(totalQuantity);
             }
 
-            // Update active tab subtitle with items-only total (after per-item discounts; excludes delivery/packaging)
-            const activeTabSubtitle = document.querySelector('.tabs .tab.active .tab-subtitle');
-            if (activeTabSubtitle) {
-                activeTabSubtitle.textContent = formatPrice(itemsFinalTotal);
-            }
+            // Update tab subtitles and icons
+            updateAllTabSubtitles();
+            updateTabIcons();
 
             // Persist currentTotal for delivery section
-            data.cart.delivery.currentTotal = itemsFinalTotal;
+            const activeCart = data.carts[data.activeCartId];
+            if (activeCart) {
+                if (!activeCart.delivery) {
+                    activeCart.delivery = {};
+                }
+                activeCart.delivery.currentTotal = itemsFinalTotal;
+            }
             sessionStorage.setItem('appData', JSON.stringify(data));
         }
 
         // Tab switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {
+                if (this.classList.contains('active')) return;
+
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
                 
                 // Update store type in data
                 const storeType = this.dataset.store;
                 const data = JSON.parse(sessionStorage.getItem('appData'));
-                data.cart.storeType = storeType;
+                data.activeCartId = storeType;
                 sessionStorage.setItem('appData', JSON.stringify(data));
 
                 // Recalc to refresh tab subtitle
+                renderCartItems();
                 recalculateCart();
+                renderMilestones();
+                updateDeliveryInfo();
             });
         });
 
@@ -1275,12 +1605,22 @@
         window.addEventListener('load', function() {
             // Load saved state
             const data = JSON.parse(sessionStorage.getItem('appData'));
-            if (data && data.cart.items[0]) {
-                document.getElementById('qty').textContent = data.cart.items[0].quantity;
+            
+            // Set the correct active tab on page load
+            if (data && data.activeCartId) {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                const activeTab = document.querySelector(`.tab[data-store="${data.activeCartId}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                }
             }
-            if (data && data.cart.packaging.returnable) {
+
+            const activeCart = getActiveCart();
+
+            if (activeCart.packaging && activeCart.packaging.returnable) {
                 document.getElementById('packageToggle').classList.add('active');
             }
+            
             // Sync delivery ETA from user state
             const timeEl = document.querySelector('.checkout-time');
             if (timeEl && data?.user?.deliverySpeed) {
@@ -1288,10 +1628,12 @@
             }
 
             // Render items UI from catalog
-            renderCartItemsFromCatalog();
+            renderCartItems();
 
             // Initial totals/progress
             recalculateCart();
+            renderMilestones();
+            updateDeliveryInfo();
         });
     </script>
 </body>
