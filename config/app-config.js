@@ -28,6 +28,10 @@
                 { threshold: 1500, rate: 0.10, percent: 10 }
             ]
         },
+        promoBanner: {
+            badgeText: '50₽',
+            mainText: 'Скидка 50₽ на Киндер Сюрприз с фиксиками›'
+        },
         userDefaults: {
             hasPlus: true,
             payWithYandexPay: true,
