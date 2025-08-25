@@ -26,13 +26,17 @@ This glossary defines canonical component names, their purpose, key states/props
 
 ### DeliveryInfo
 - **Purpose**: Shows delivery pricing with membership benefit and threshold to next discount.
-- **Key elements**: `.delivery-info`, `.delivery-card`, `.delivery-text`, `.delivery-title`, `.delivery-subtitle`, `.badge-green`.
+- **Key elements**: `.delivery-info`, `.delivery-header`, `.delivery-text`, `.delivery-main`, `.delivery-fee-value`, `.delivery-hint`, `.badge-green`.
 - **Notes**: “♣️ Пай” membership indicator displayed inline.
 
 ### ProgressBar
 - **Purpose**: Visualizes progress toward discount threshold.
 - **Key elements**: `.progress-bar`, `.progress-track`, `.progress-fill`, `.progress-labels`.
 - **State**: `width` of `.progress-fill` expresses progress.
+
+### VisualContainer
+- **Purpose**: Visually groups related components into a card-like element with a white background and rounded corners.
+- **Key elements**: `.visual-container`.
 
 ### CartItemsList
 - **Purpose**: Container for items in cart.
@@ -41,6 +45,7 @@ This glossary defines canonical component names, their purpose, key states/props
 ### CartItem
 - **Purpose**: Displays a single product row.
 - **Key elements**: `.cart-item`, `.item-image`, `.item-details`, `.item-name`, `.item-price`, `.price-current`, `.price-old`, `.price-weight`.
+- **State**: `.price-current.has-discount` is applied when an item has a sale price.
 - **Notes**: Old price is optional and shown with strikethrough.
 
 ### QuantityControls
@@ -59,7 +64,11 @@ This glossary defines canonical component names, their purpose, key states/props
 
 ### PromoBanner
 - **Purpose**: Highlights active promo applicable to a product.
-- **Key elements**: `.promo-banner`, `.promo-card`, `.promo-badge`, `.promo-text`.
+- **Key elements**: `.promo-banner`, `.promo-card`, `.promo-icon`, `.promo-icon-ticket`, `.promo-text`.
+
+### PromoCodeList
+- **Purpose**: An entry point to the list of active promo codes.
+- **Notes**: Currently implemented as a simple text link without a dedicated class.
 
 ### Recommendations
 - **Purpose**: Horizontally scrollable list of recommended items.
