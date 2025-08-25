@@ -150,7 +150,7 @@
             font-family: var(--font-family);
             font-size: var(--font-size-base);
             color: var(--color-text-primary);
-            background: var(--color-bg-primary);
+            background: var(--color-bg-secondary);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             touch-action: manipulation;
@@ -216,7 +216,6 @@
 
         /* Tabs */
         .tabs {
-            background: var(--color-bg-primary);
             padding: var(--spacing-md) var(--spacing-lg);
             display: flex;
             gap: var(--spacing-md);
@@ -459,8 +458,22 @@
 
         /* Cart Items */
         .cart-items {
-            background: var(--color-bg-primary);
             padding: var(--spacing-lg);
+        }
+
+        .visual-container {
+            background: var(--color-bg-primary);
+            border-radius: var(--radius-lg);
+            margin: 0 0 8px;
+            overflow: hidden;
+        }
+
+        .visual-container > div:not(:first-child) {
+            border-top: 1px solid var(--color-border);
+        }
+
+        .visual-container > .delivery-info {
+            border-top: none;
         }
 
         .cart-item {
@@ -568,8 +581,7 @@
         /* Order Summary */
         .order-summary {
             padding: var(--spacing-lg);
-            background: var(--color-bg-primary);
-            border-top: 1px solid var(--color-border);
+            border-top: none;
         }
 
         .summary-row {
@@ -592,8 +604,7 @@
         /* Package Return */
         .package-return {
             padding: var(--spacing-lg);
-            background: var(--color-bg-primary);
-            border-top: 8px solid var(--color-bg-secondary);
+            border-top: none;
         }
 
         .return-option {
@@ -627,7 +638,7 @@
         }
 
         .toggle-switch.active {
-            background: var(--color-green);
+            background: var(--color-primary);
         }
 
         .toggle-switch::after {
@@ -648,40 +659,47 @@
 
         /* Promo Banner */
         .promo-banner {
+            background: var(--color-bg-card);
             padding: var(--spacing-lg);
-            background: var(--color-bg-primary);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
         }
 
         .promo-card {
-            background: var(--color-badge-blue);
-            color: white;
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--radius-md);
+            background: transparent;
+            color: var(--color-text-primary);
+            padding: 0;
+            border-radius: 0;
             display: flex;
             align-items: center;
             gap: var(--spacing-md);
         }
 
         .promo-badge {
-            background: white;
-            color: var(--color-badge-blue);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--radius-sm);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-badge-blue);
+            color: white;
             font-weight: 700;
             font-size: var(--font-size-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
         }
 
         .promo-text {
             flex: 1;
             font-size: var(--font-size-base);
             font-weight: 500;
+            line-height: 1.4;
         }
 
         /* Recommendations */
         .recommendations {
             padding: var(--spacing-lg);
-            background: var(--color-bg-primary);
-            border-top: 8px solid var(--color-bg-secondary);
+            border-top: none;
         }
 
         .recommendations-header {
@@ -852,113 +870,103 @@
         </div>
     </header>
 
-    <!-- Tabs -->
-    <div class="tabs">
-        <div class="tab active" data-store="home">
-            <div class="tab-icon"></div>
-            <div class="tab-content">
-                <div class="tab-title">лавка у дома</div>
-                <div class="tab-subtitle">510₽</div>
+    <div class="visual-container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-store="home">
+                <div class="tab-icon"></div>
+                <div class="tab-content">
+                    <div class="tab-title">лавка у дома</div>
+                    <div class="tab-subtitle">510₽</div>
+                </div>
+            </div>
+            <div class="tab" data-store="big">
+                <div class="tab-icon"></div>
+                <div class="tab-content">
+                    <div class="tab-title">большая лавка</div>
+                    <div class="tab-subtitle">252₽</div>
+                </div>
             </div>
         </div>
-        <div class="tab" data-store="big">
-            <div class="tab-icon">🏬</div>
-            <div class="tab-content">
-                <div class="tab-title">большая лавка</div>
-                <div class="tab-subtitle">252₽</div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Delivery Info -->
-    <div class="delivery-info">
-        <div class="delivery-header">
-            <div class="delivery-text">
-                <div class="delivery-main">
-                    С картой <img src="assets/Я.svg" alt="Яндекс Пэй" style="height: 1em; vertical-align: middle; margin-right: 2px;"> <span style="color: var(--color-pay-green);">Пэй</span><br>
-                    <span id="delivery-cost">Доставка <strong class="delivery-fee-value">95₽</strong></span>
-                    <span id="delivery-discount" class="badge-green">-20%</span>
-                    <span id="delivery-original-cost">/ без: 119₽</span>
+        <!-- Delivery Info -->
+        <div class="delivery-info">
+            <div class="delivery-header">
+                <div class="delivery-text">
+                    <div class="delivery-main">
+                        С картой <img src="assets/Я.svg" alt="Яндекс Пэй" style="height: 1em; vertical-align: middle; margin-right: 2px;"> <span style="color: var(--color-pay-green);">Пэй</span><br>
+                        <span id="delivery-cost">Доставка <strong class="delivery-fee-value">95₽</strong></span>
+                        <span id="delivery-discount" class="badge-green">-20%</span>
+                        <span id="delivery-original-cost">/ без: 119₽</span>
+                    </div>
+                    <div class="delivery-hint" id="delivery-hint">
+                        Ещё 801₽, и будет 63₽
+                    </div>
                 </div>
-                <div class="delivery-hint" id="delivery-hint">
-                    Ещё 801₽, и будет 63₽
-                </div>
+                <button class="icon-btn">›</button>
             </div>
-            <button class="icon-btn">›</button>
-        </div>
-        <div class="progress-bar-container">
-            <div class="progress-bar-scroll">
-                <div class="progress-bar-track">
-                    <div class="progress-bar-fill"></div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-scroll">
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Cart Items -->
-    <div class="cart-items">
-        <div class="cart-item">
-            <div class="item-image">🍓</div>
-            <div class="item-details">
-                <div class="item-name">Малина Артфрут</div>
-                <div class="item-price">
-                    <span class="price-current">359₽</span>
-                    <span class="price-old">449₽</span>
-                    <span class="price-weight">· 125 г</span>
+    <div class="cart-items visual-container">
+    </div>
+
+    <div class="visual-container">
+        <!-- Package Return -->
+        <div class="package-return">
+            <div class="return-option">
+                <div class="return-text">
+                    <div class="return-title">Отдать пакеты и получить 12<img src="/Users/nikitobot/app_prototyping/assets/Plus.png" alt="Plus points" style="height: 1em; vertical-align: middle; margin-left: 2px;"></div>
+                    <div class="return-link">Какие условия ›</div>
+                </div>
+                <div class="toggle-switch" id="packageToggle" onclick="toggleSwitch(this)"></div>
+            </div>
+        </div>
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <div class="summary-row">
+                <span class="summary-label">Упаковка заказа ›</span>
+                <span class="summary-value">12₽</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="visual-container">
+        <!-- Recommendations -->
+        <div class="recommendations">
+            <!-- Promo Banner -->
+            <div class="promo-banner">
+                <div class="promo-card">
+                    <span class="promo-badge">10%</span>
+                    <span class="promo-text">Получите скидку на 10% за 3 заказа<br>с товарами из подборки ›</span>
                 </div>
             </div>
-            <div class="quantity-controls">
-                <button class="qty-btn" onclick="updateQuantity('raspberry_artfruit', -1)">−</button>
-                <span class="qty-value" id="qty">1</span>
-                <button class="qty-btn" onclick="updateQuantity('raspberry_artfruit', 1)">+</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Order Summary -->
-    <div class="order-summary">
-        <div class="summary-row">
-            <span class="summary-label">Упаковка заказа ›</span>
-            <span class="summary-value">12₽</span>
-        </div>
-    </div>
-
-    <!-- Package Return -->
-    <div class="package-return">
-        <div class="return-option">
-            <div class="return-text">
-                <div class="return-title">Отдать пакеты и получить 12💜</div>
-                <div class="return-link">Какие условия ›</div>
+            <h2 class="recommendations-header">Подобрали для вас</h2>
+            <div class="recommendations-grid">
+                <div class="recommendation-card" style="position: relative;">
+                    <span class="rec-badge">⚡ ×2</span>
+                    <div class="rec-image">🍫</div>
+                </div>
+                <div class="recommendation-card">
+                    <div class="rec-image">🥤</div>
+                </div>
+                <div class="recommendation-card">
+                    <div class="rec-image">🍪</div>
+                </div>
             </div>
-            <div class="toggle-switch" id="packageToggle" onclick="toggleSwitch(this)"></div>
-        </div>
-    </div>
-
-    <!-- Promo Banner -->
-    <div class="promo-banner">
-        <div class="promo-card">
-            <span class="promo-badge">-50₽</span>
-            <span class="promo-text">Скидка 50₽ на Kinder Сюрприз с фиксиками ›</span>
-        </div>
-    </div>
-
-    <!-- Recommendations -->
-    <div class="recommendations">
-        <h2 class="recommendations-header">Подобрали для вас</h2>
-        <div class="recommendations-grid">
-            <div class="recommendation-card" style="position: relative;">
-                <span class="rec-badge">⚡ ×2</span>
-                <div class="rec-image">🍫</div>
+            
+            <div style="margin-top: var(--spacing-lg); font-size: var(--font-size-base);">
+                🏷️ У вас 2 промокода ›
             </div>
-            <div class="recommendation-card">
-                <div class="rec-image">🥤</div>
-            </div>
-            <div class="recommendation-card">
-                <div class="rec-image">🍪</div>
-            </div>
-        </div>
-        <div style="margin-top: var(--spacing-lg); font-size: var(--font-size-base);">
-            🏷️ У вас 2 промокода ›
         </div>
     </div>
 
