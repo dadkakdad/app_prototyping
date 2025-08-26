@@ -8,6 +8,50 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Яндекс Лавка - Корзина</title>
     <link rel="stylesheet" href="./assets/css/main.css">
+    <script>
+        (function() {
+            const cacheBuster = `v=${new Date().getTime()}`;
+    
+            // Function to apply cache buster to a collection of elements
+            const applyCacheBuster = (selector, attribute) => {
+                document.querySelectorAll(selector).forEach(el => {
+                    const path = el.getAttribute(attribute);
+                    if (path && !path.startsWith('http')) { // Only apply to local files
+                        el.setAttribute(attribute, `${path}?${cacheBuster}`);
+                    }
+                });
+            };
+    
+            // Apply to stylesheet in the head immediately
+            applyCacheBuster('link[rel="stylesheet"]', 'href');
+    
+            // Create a MutationObserver to watch for script tags being added
+            const observer = new MutationObserver((mutationsList) => {
+                for(const mutation of mutationsList) {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(node => {
+                            if (node.tagName === 'SCRIPT' && node.src && !node.src.startsWith('http')) {
+                                node.src = `${node.src}?${cacheBuster}`;
+                            }
+                            if (node.tagName === 'LINK' && node.rel === 'stylesheet' && node.href && !node.href.startsWith('http')) {
+                               node.href = `${node.href}?${cacheBuster}`;
+                            }
+                        });
+                    }
+                }
+            });
+    
+            // Observe the entire document for additions
+            observer.observe(document.documentElement, { childList: true, subtree: true });
+    
+            // When the DOM is fully loaded, apply to all scripts that might already be there
+            // and then disconnect the observer as it's no longer needed.
+            window.addEventListener('DOMContentLoaded', () => {
+                applyCacheBuster('script[src]', 'src');
+                observer.disconnect();
+            });
+        })();
+    </script>
     <style>
         .floating-checkout {
             position: fixed;
