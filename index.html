@@ -218,7 +218,7 @@
 
         /* Tabs */
         .tabs {
-            padding: var(--spacing-md) var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
             display: flex;
             gap: var(--spacing-md);
         }
@@ -278,7 +278,7 @@
         /* Delivery Info */
         .delivery-info {
             background: var(--color-bg-card);
-            padding: var(--spacing-lg);
+            padding: var(--spacing-md);
             border-radius: var(--radius-lg);
             margin: 0 var(--spacing-lg) 8px;
         }
@@ -287,7 +287,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
         }
 
         .delivery-main {
@@ -323,7 +323,7 @@
         .progress-bar-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 24px; /* Increased padding */
+            padding-bottom: var(--spacing-lg); /* Increased padding */
             scrollbar-width: auto; /* For Firefox */
         }
 
@@ -460,7 +460,7 @@
 
         /* Cart Items */
         .cart-items {
-            padding: var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
         }
 
         .visual-container {
@@ -605,7 +605,7 @@
 
         /* Package Return */
         .package-return {
-            padding: var(--spacing-lg);
+            padding: var(--spacing-md);
             border-top: none;
         }
 
@@ -662,9 +662,9 @@
         /* Promo Banner */
         .promo-banner {
             background: var(--color-bg-card);
-            padding: var(--spacing-lg);
+            padding: var(--spacing-md);
             border-radius: var(--radius-lg);
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
         }
 
         .promo-card {
@@ -728,14 +728,14 @@
 
         /* Recommendations */
         .recommendations {
-            padding: var(--spacing-lg);
+            padding: var(--spacing-md);
             border-top: none;
         }
 
         .recommendations-header {
             font-size: var(--font-size-lg);
             font-weight: 700;
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
         }
 
         .recommendations-grid {
@@ -806,6 +806,63 @@
 
         .checkout-btn:active {
             background: var(--color-primary-dark);
+        }
+
+        .promo-code-entry {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .promo-code-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-badge-blue-dark);
+            color: white;
+            font-weight: 700;
+            border-radius: 8px;
+            width: 32px;
+            height: 24px;
+            font-size: 16px;
+            margin-right: var(--spacing-md);
+            line-height: 1;
+            transform: rotate(-10deg);
+        }
+
+        .promo-code-icon::before,
+        .promo-code-icon::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            background: var(--color-bg-primary);
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .promo-code-icon::before {
+            left: -4px;
+        }
+        
+        .promo-code-icon::after {
+            right: -4px;
+        }
+
+        .promo-code-text {
+            flex-grow: 1;
+            font-weight: 500;
+            font-size: var(--font-size-base);
+        }
+
+        .promo-code-arrow {
+            font-size: 20px;
+            color: var(--color-text-tertiary);
+            font-weight: bold;
         }
 
         .checkout-time {
@@ -996,9 +1053,6 @@
                 </div>
             </div>
             
-            <div style="margin-top: var(--spacing-lg); font-size: var(--font-size-base);">
-                🏷️ У вас 2 промокода ›
-            </div>
         </div>
     </div>
 
@@ -1007,6 +1061,11 @@
 
     <!-- Checkout Footer -->
     <div class="checkout-footer">
+        <div class="promo-code-entry">
+            <div class="promo-code-icon">%</div>
+            <div class="promo-code-text">У вас 2 промокода</div>
+            <div class="promo-code-arrow">&rsaquo;</div>
+        </div>
         <button class="checkout-btn">
             <span class="checkout-time">15-30 мин</span>
             <span style="flex: 1; text-align: center;">К оплате</span>
