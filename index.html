@@ -1918,11 +1918,20 @@
         // Quantity controls
         function updateQuantity(event, refId, change) {
             const isFromRecommendations = event.target.closest('.recommendations');
-            const scrollY = isFromRecommendations ? window.scrollY : null;
 
             const data = JSON.parse(sessionStorage.getItem('appData'));
             const cart = data.carts[data.activeCartId];
             const item = cart.items.find(it => it.refId === refId);
+
+            const isAddingFirstItemFromRecs = isFromRecommendations && !item && change > 0;
+            
+            let scrollY = null;
+            let scrollHeightBefore = null;
+
+            if (isAddingFirstItemFromRecs) {
+                scrollY = window.scrollY;
+                scrollHeightBefore = document.documentElement.scrollHeight;
+            }
 
             if (item) {
                 item.quantity += change;
@@ -1941,8 +1950,14 @@
             recalculateCart();
             updateDeliveryInfo();
 
-            if (scrollY !== null) {
-                window.scrollTo({ top: scrollY, behavior: 'instant' });
+            if (isAddingFirstItemFromRecs) {
+                requestAnimationFrame(() => {
+                    const scrollHeightAfter = document.documentElement.scrollHeight;
+                    const heightDifference = scrollHeightAfter - scrollHeightBefore;
+                    if (heightDifference > 0) {
+                        window.scrollTo({ top: scrollY + heightDifference, behavior: 'instant' });
+                    }
+                });
             }
         }
     </script>
