@@ -481,72 +481,6 @@ function recalculateCart() {
     const deliveryFeeWithoutYP = getDeliveryFee(itemsFinalTotal, false);
     const deliveryFee = usesYandexPay ? deliveryFeeWithYP : deliveryFeeWithoutYP;
 
-    // Update delivery progress towards next cart-size discount tier
-    const target = getNextDiscountTarget(itemsFinalTotal);
-    let remaining = 0;
-    let progressPct = 100;
-    if (target.nextAmount) {
-        remaining = Math.max(0, target.nextAmount - itemsFinalTotal);
-        progressPct = Math.min(100, (itemsFinalTotal / target.nextAmount) * 100);
-    }
-
-    const progressFill = document.querySelector('.progress-bar-fill');
-    if (progressFill) {
-        progressFill.style.width = `${progressPct}%`;
-    }
-    const hint = document.getElementById('delivery-hint');
-    if (hint) {
-        if (target.nextAmount && remaining > 0) {
-            hint.textContent = `Ещё ${remaining}${APP_CONFIG.currency}, и скидка ${target.nextPercent}%`;
-        } else {
-            const applied = Math.round(getCartDiscountRate(itemsFinalTotal) * 100);
-            if (applied > 0) {
-                hint.textContent = `Скидка ${applied}% применена`;
-            } else {
-                hint.textContent = 'Добавьте товары для скидки';
-            }
-        }
-    }
-
-    // Update delivery text line and small label
-    const deliveryLine = document.getElementById('deliveryLine');
-    if (deliveryLine) {
-        deliveryLine.innerHTML = `Доставка ${deliveryFeeWithYP}${APP_CONFIG.currency} <span class="badge-green">-20%</span> / без: ${deliveryFeeWithoutYP}${APP_CONFIG.currency}`;
-    }
-
-    // Update goal labels (next discount tier info)
-    const goalPercentEl = document.getElementById('goalPercentLabel');
-    const goalAmountEl = document.getElementById('goalAmountLabel');
-    if (goalPercentEl && goalAmountEl) {
-        if (target.nextAmount) {
-            goalPercentEl.textContent = `🎯 ${target.nextPercent}%`;
-            goalAmountEl.textContent = formatPrice(target.nextAmount);
-        } else {
-            const applied = Math.round(getCartDiscountRate(itemsFinalTotal) * 100);
-            goalPercentEl.textContent = `🎯 ${applied}%`;
-            goalAmountEl.textContent = '';
-        }
-    }
-
-    // Update checkout totals (items only)
-    const packagingFee = Number(data.carts[data.activeCartId].packaging?.cost) || 0;
-    const originalTotal = itemsOriginalTotal + packagingFee + deliveryFee;
-    const preDiscountFinalTotal = itemsFinalTotal + packagingFee + deliveryFee;
-    const rate = getCartDiscountRate(itemsFinalTotal);
-    const finalAfterDiscount = Math.round(preDiscountFinalTotal * (1 - rate));
-
-    const priceFinalEl = document.querySelector('.checkout-price .price-final');
-    const priceOriginalEl = document.querySelector('.checkout-price .price-original');
-    if (priceFinalEl) priceFinalEl.textContent = formatPrice(finalAfterDiscount);
-    if (priceOriginalEl) {
-        if (originalTotal > finalAfterDiscount) {
-            priceOriginalEl.style.display = '';
-            priceOriginalEl.textContent = formatPrice(originalTotal);
-        } else {
-            priceOriginalEl.style.display = 'none';
-        }
-    }
-
     // Update bottom nav cart badge
     const navBadge = document.querySelector('.bottom-nav .nav-badge');
     if (navBadge) {
@@ -594,6 +528,7 @@ document.querySelectorAll('.tab').forEach(tab => {
         recalculateCart();
         renderMilestones();
         updateDeliveryInfo();
+        updateFloatingCheckoutButton();
     });
 });
 
@@ -639,6 +574,12 @@ window.addEventListener('load', function() {
         document.getElementById('packageToggle').classList.add('active');
     }
     
+    // Track delivery status for confetti effect
+    let wasDeliveryFree = false;
+    const initialTotals = computeTotals(data);
+    const initialFee = getDeliveryFee(initialTotals.itemsFinalTotal, isYandexPayEnabled(data));
+    wasDeliveryFree = initialFee === 0;
+
     // Sync delivery ETA from user state
     const timeEl = document.querySelector('.checkout-time');
     if (timeEl && data?.user?.deliverySpeed) {
@@ -653,6 +594,7 @@ window.addEventListener('load', function() {
     recalculateCart();
     renderMilestones();
     updateDeliveryInfo();
+    updateFloatingCheckoutButton(wasDeliveryFree); // Initial render
 });
 
 // Render recommendations
@@ -766,4 +708,95 @@ function updateQuantity(event, refId, change) {
             }
         });
     }
+
+    // After updating cart, also update the floating checkout button
+    updateFloatingCheckoutButton();
+}
+
+function updateFloatingCheckoutButton() {
+    // This function can be called from different places, so we need to ensure wasDeliveryFree is accessible.
+    // A better implementation might use a small state management object, but a window scope variable is simple for this prototype.
+    if (typeof window.wasDeliveryFree === 'undefined') {
+        window.wasDeliveryFree = false; // Initialize if not present
+    }
+
+    const data = JSON.parse(sessionStorage.getItem('appData'));
+    if (!data) return;
+
+    const { itemsFinalTotal } = computeTotals(data);
+    const usesYandexPay = isYandexPayEnabled(data);
+    
+    // Use the same delivery fee logic as DeliveryInfo
+    const deliveryTiers = (usesYandexPay ? APP_CONFIG.delivery.tiers.yandexPay : APP_CONFIG.delivery.tiers.regular)
+        .slice() // Create a copy to sort
+        .sort((a, b) => a.threshold - b.threshold);
+
+    const currentFee = getDeliveryFee(itemsFinalTotal, usesYandexPay);
+
+    // Find the next tier for a lower delivery fee
+    let nextTier = null;
+    for (let i = 0; i < deliveryTiers.length; i++) {
+        if (itemsFinalTotal < deliveryTiers[i].threshold) {
+            nextTier = deliveryTiers[i];
+            break;
+        }
+    }
+
+    const checkoutButton = document.getElementById('checkout-button');
+    const mainRowEl = checkoutButton ? checkoutButton.querySelector('.button-main-row') : null;
+    const progressCircle = document.getElementById('progress-ring-circle');
+
+    if (!checkoutButton || !mainRowEl || !progressCircle) return;
+    
+    // Setup for progress ring
+    const radius = progressCircle.r.baseVal.value;
+    const circumference = 2 * Math.PI * radius;
+    progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+
+    // Recalculate full total for display
+    const packagingFee = Number(data.carts[data.activeCartId].packaging?.cost) || 0;
+    const preDiscountFinalTotal = itemsFinalTotal + packagingFee + currentFee;
+    const rate = getCartDiscountRate(itemsFinalTotal);
+    const finalAfterDiscount = Math.round(preDiscountFinalTotal * (1 - rate));
+    
+    // Find free delivery threshold
+    const freeDeliveryTier = deliveryTiers.find(tier => tier.fee === 0);
+    const freeDeliveryThreshold = freeDeliveryTier ? freeDeliveryTier.threshold : -1;
+
+    let progressPercentage = 0;
+    if (freeDeliveryThreshold > 0) {
+        progressPercentage = (itemsFinalTotal / freeDeliveryThreshold) * 100;
+    } else if (currentFee === 0) {
+        progressPercentage = 100;
+    }
+    
+    const offset = circumference - (Math.min(100, progressPercentage) / 100) * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+
+    const isNowFree = currentFee === 0;
+
+    if (isNowFree) {
+        // Free delivery state
+        checkoutButton.classList.add('free-delivery');
+        mainRowEl.innerHTML = '<span class="congrats-text">🎉<br>Бесплатно</span>';
+        
+        if (!window.wasDeliveryFree) {
+            // Trigger confetti only on the transition to free
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+    } else {
+        // Default state
+        checkoutButton.classList.remove('free-delivery');
+        mainRowEl.innerHTML = `
+            <span class="total-price" id="checkout-price">${formatPrice(finalAfterDiscount)}</span>
+            <span class="checkout-label">Доставка ${formatPrice(currentFee)}</span>
+        `;
+    }
+
+    // Update the state for the next run
+    window.wasDeliveryFree = isNowFree;
 } 

@@ -8,6 +8,96 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Яндекс Лавка - Корзина</title>
     <link rel="stylesheet" href="./assets/css/main.css">
+    <style>
+        .floating-checkout {
+            position: fixed;
+            bottom: 75px; /* Above bottom nav */
+            left: var(--spacing-medium, 16px);
+            right: var(--spacing-medium, 16px);
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .checkout-btn-redesigned {
+            width: 90px;
+            height: 90px;
+            background-color: var(--color-primary, #FCE000);
+            color: var(--color-text-primary, #000000);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            font-family: var(--font-family, sans-serif);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: visible;
+            padding: 0;
+            text-align: center;
+        }
+
+        .checkout-btn-redesigned .button-main-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        .checkout-btn-redesigned .total-price {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .checkout-btn-redesigned .checkout-label {
+            font-size: 11px;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+        
+        .checkout-btn-redesigned.free-delivery {
+            background-color: var(--color-green, #00B341);
+        }
+
+        .checkout-btn-redesigned .congrats-text {
+            font-size: var(--font-size-sm, 13px);
+            font-weight: bold;
+            padding: 0 8px;
+        }
+        
+        .checkout-progress-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            width: 100px;
+            height: 100px;
+        }
+
+        .checkout-progress-ring__circle {
+            stroke-width: 6px;
+            fill: transparent;
+            transition: stroke-dashoffset 0.3s ease, stroke 0.3s ease;
+        }
+
+        .checkout-progress-ring__background {
+            stroke: rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-progress-ring__progress {
+            stroke: var(--color-red, #FF3333);
+            stroke-linecap: round;
+        }
+
+        .checkout-btn-redesigned.free-delivery .checkout-progress-ring__progress {
+            stroke: var(--color-green, #00B341);
+        }
+
+    </style>
 </head>
 <body>
     <!-- Status Bar -->
@@ -114,7 +204,7 @@
 
             <h2 class="recommendations-header">Подобрали для вас</h2>
             <div class="recommendations-grid">
-                <div class="recommendation-card" style="position: relative;">
+                <div id="add-to-cart-trigger" class="recommendation-card" style="position: relative; cursor: pointer;">
                     <span class="rec-badge">⚡ ×2</span>
                     <div class="rec-image">🍫</div>
                 </div>
@@ -132,20 +222,17 @@
     <!-- Spacer for fixed footer -->
     <div class="content-spacer"></div>
 
-    <!-- Checkout Footer -->
-    <div class="checkout-footer">
-        <div class="promo-code-entry">
-            <div class="promo-code-icon">%</div>
-            <div class="promo-code-text">У вас 2 промокода</div>
-            <div class="promo-code-arrow">&rsaquo;</div>
-        </div>
-        <button class="checkout-btn">
-            <span class="checkout-time">15-30 мин</span>
-            <span style="flex: 1; text-align: center;">К оплате</span>
-            <span class="checkout-price">
-                <span class="price-final">510₽</span>
-                <span class="price-original">588₽</span>
-            </span>
+    <!-- Floating Checkout Button -->
+    <div class="floating-checkout">
+        <button class="checkout-btn-redesigned" id="checkout-button">
+            <div class="button-main-row">
+                <span class="total-price" id="checkout-price">510₽</span>
+                <span class="checkout-label">К оплате</span>
+            </div>
+            <svg class="checkout-progress-ring" id="progress-ring">
+                <circle class="checkout-progress-ring__circle checkout-progress-ring__background" r="45" cx="50" cy="50"></circle>
+                <circle class="checkout-progress-ring__circle checkout-progress-ring__progress" id="progress-ring-circle" r="45" cx="50" cy="50"></circle>
+            </svg>
         </button>
     </div>
 
@@ -168,6 +255,7 @@
 
     <script src="./config/app-config.js"></script>
     <script src="./config/items-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="./assets/js/main.js"></script>
 </body>
 </html>
