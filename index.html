@@ -1393,9 +1393,9 @@
                         </div>
                     </div>
                     <div class="quantity-controls">
-                        <button class="qty-btn" onclick="updateQuantity('${cartItem.refId}', -1)">−</button>
+                        <button class="qty-btn" onclick="updateQuantity(event, '${cartItem.refId}', -1)">−</button>
                         <span class="qty-value">${cartItem.quantity}</span>
-                        <button class="qty-btn" onclick="updateQuantity('${cartItem.refId}', 1)">+</button>
+                        <button class="qty-btn" onclick="updateQuantity(event, '${cartItem.refId}', 1)">+</button>
                     </div>
                 `;
                 cartContainer.appendChild(itemEl);
@@ -1888,13 +1888,13 @@
                 if (quantity > 0) {
                     controlsHTML = `
                         <div class="rec-quantity-controls">
-                            <button class="qty-btn" onclick="updateQuantity('${itemDef.id}', -1)">−</button>
+                            <button class="qty-btn" onclick="updateQuantity(event, '${itemDef.id}', -1)">−</button>
                             <span class="qty-value">${quantity}</span>
-                            <button class="qty-btn" onclick="updateQuantity('${itemDef.id}', 1)">+</button>
+                            <button class="qty-btn" onclick="updateQuantity(event, '${itemDef.id}', 1)">+</button>
                         </div>
                     `;
                 } else {
-                    controlsHTML = `<button class="rec-add-btn" onclick="updateQuantity('${itemDef.id}', 1)">+</button>`;
+                    controlsHTML = `<button class="rec-add-btn" onclick="updateQuantity(event, '${itemDef.id}', 1)">+</button>`;
                 }
 
                 card.innerHTML = `
@@ -1916,7 +1916,10 @@
         }
 
         // Quantity controls
-        function updateQuantity(refId, change) {
+        function updateQuantity(event, refId, change) {
+            const isFromRecommendations = event.target.closest('.recommendations');
+            const scrollY = isFromRecommendations ? window.scrollY : null;
+
             const data = JSON.parse(sessionStorage.getItem('appData'));
             const cart = data.carts[data.activeCartId];
             const item = cart.items.find(it => it.refId === refId);
@@ -1937,6 +1940,10 @@
             renderRecommendations(data.activeCartId);
             recalculateCart();
             updateDeliveryInfo();
+
+            if (scrollY !== null) {
+                window.scrollTo({ top: scrollY, behavior: 'instant' });
+            }
         }
     </script>
 </body>
