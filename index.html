@@ -114,6 +114,8 @@
             --color-qty-bg: #5C5A571A;
             --color-badge-blue-light: #CDEEFE;
             --color-badge-blue-dark: #29A5F7;
+            --color-icon-inactive: #999999;
+            --color-icon-active: #000000;
             
             /* Typography */
             --font-family: 'YS Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -172,12 +174,19 @@
             align-items: center;
             font-size: var(--font-size-base);
             font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .status-icons {
             display: flex;
             gap: 5px;
             align-items: center;
+        }
+
+        .status-icons img {
+            height: 12px;
         }
 
         /* Header */
@@ -188,6 +197,9 @@
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
             border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 44px; /* Height of the status bar */
+            z-index: 100;
         }
 
         .header-title {
@@ -278,7 +290,7 @@
         /* Delivery Info */
         .delivery-info {
             background: var(--color-bg-card);
-            padding: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-md) 22px;
             border-radius: var(--radius-lg);
             margin: 0 var(--spacing-lg) 8px;
         }
@@ -907,21 +919,34 @@
             justify-content: center;
             gap: var(--spacing-xs);
             cursor: pointer;
-            color: var(--color-text-secondary);
+            color: var(--color-icon-inactive);
+            position: relative;
         }
 
         .nav-item.active {
-            color: var(--color-text-primary);
+            color: var(--color-icon-active);
         }
 
         .nav-icon {
             font-size: 20px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon img, .nav-icon svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .nav-badge {
             position: absolute;
-            top: -4px;
-            right: -8px;
+            top: 2px;
+            right: 30px;
             background: var(--color-red);
             color: white;
             border-radius: var(--radius-full);
@@ -941,9 +966,9 @@
     <div class="status-bar">
         <div class="time">14:26</div>
         <div class="status-icons">
-            <span>📶</span>
-            <span>📶</span>
-            <span>🔋 74%</span>
+            <img src="./assets/MobileSignal.svg" alt="Mobile Signal">
+            <img src="./assets/WiFi.svg" alt="WiFi">
+            <img src="./assets/Battery.svg" alt="Battery">
         </div>
     </div>
 
@@ -1011,7 +1036,7 @@
         <div class="package-return">
             <div class="return-option">
                 <div class="return-text">
-                    <div class="return-title">Отдать пакеты и получить 12<img src="./assets/Plus.png" alt="Plus points" style="height: 1em; vertical-align: middle; margin-left: 2px;"></div>
+                    <div class="return-title">Отдать пакеты и получить 12<img src="./assets/Plus.svg" alt="Plus points" style="height: 1em; vertical-align: middle; margin-left: 2px;"></div>
                     <div class="return-link">Какие условия ›</div>
                 </div>
                 <div class="toggle-switch" id="packageToggle" onclick="toggleSwitch(this)"></div>
@@ -1079,17 +1104,17 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <div class="nav-item">
-            <span class="nav-icon">🏠</span>
+            <span class="nav-icon"><svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9 1.49976C18.9751 1.49976 23.9 6.42462 23.9 12.4998C23.9 18.5749 18.9751 23.4998 12.9 23.4998C6.82487 23.4998 1.9 18.5749 1.9 12.4998C1.9 6.42462 6.82487 1.49976 12.9 1.49976ZM16.9586 7.09937C14.9307 6.94214 14.2694 7.79138 13.3404 12.6873C13.3364 12.668 13.0431 11.303 11.0133 8.99585C8.96901 6.67225 7.88457 7.15913 6.94102 8.17065C5.78865 9.40515 6.24826 11.668 7.12363 13.738C7.67991 15.0548 9.14971 17.442 11.0133 18.5476C13.5834 20.0709 17.1211 19.2239 18.7242 14.4568C20.3884 9.51131 18.5442 7.22232 16.9586 7.09937Z" fill="currentColor"/></svg></span>
         </div>
         <div class="nav-item">
-            <span class="nav-icon">📱</span>
+            <span class="nav-icon"><svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.6022 5.99063C13.5 6.37213 13.5 6.83712 13.5 7.76709C13.5 8.69706 13.5 9.16205 13.6022 9.54355C13.8796 10.5788 14.6883 11.3875 15.7235 11.6649C16.105 11.7671 16.57 11.7671 17.5 11.7671C18.43 11.7671 18.895 11.7671 19.2765 11.6649C20.3117 11.3875 21.1204 10.5788 21.3978 9.54355C21.5 9.16205 21.5 8.69706 21.5 7.76709C21.5 6.83712 21.5 6.37213 21.3978 5.99063C21.1204 4.95536 20.3117 4.14671 19.2765 3.86931C18.895 3.76709 18.43 3.76709 17.5 3.76709C16.57 3.76709 16.105 3.76709 15.7235 3.86931C14.6883 4.14671 13.8796 4.95536 13.6022 5.99063ZM13.6022 15.9906C13.5 16.3721 13.5 16.8371 13.5 17.7671C13.5 18.6971 13.5 19.162 13.6022 19.5435C13.8796 20.5788 14.6883 21.3875 15.7235 21.6649C16.105 21.7671 16.57 21.7671 17.5 21.7671C18.43 21.7671 18.895 21.7671 19.2765 21.6649C20.3117 21.3875 21.1204 20.5788 21.3978 19.5435C21.5 19.162 21.5 18.6971 21.5 17.7671C21.5 16.8371 21.5 16.3721 21.3978 15.9906C21.1204 14.9554 20.3117 14.1467 19.2765 13.8693C18.895 13.7671 18.43 13.7671 17.5 13.7671C16.57 13.7671 16.105 13.7671 15.7235 13.8693C14.6883 14.1467 13.8796 14.9554 13.6022 15.9906ZM3.5 17.7671C3.5 16.8371 3.5 16.3721 3.60222 15.9906C3.87962 14.9554 4.68827 14.1467 5.72354 13.8693C6.10504 13.7671 6.57003 13.7671 7.5 13.7671C8.42997 13.7671 8.89496 13.7671 9.27646 13.8693C10.3117 14.1467 11.1204 14.9554 11.3978 15.9906C11.5 16.3721 11.5 16.8371 11.5 17.7671C11.5 18.6971 11.5 19.162 11.3978 19.5435C11.1204 20.5788 10.3117 21.3875 9.27646 21.6649C8.89496 21.7671 8.42997 21.7671 7.5 21.7671C6.57003 21.7671 6.10504 21.7671 5.72354 21.6649C4.68827 21.3875 3.87962 20.5788 3.60222 19.5435C3.5 19.162 3.5 18.6971 3.5 17.7671ZM3.60222 5.99063C3.5 6.37213 3.5 6.83712 3.5 7.76709C3.5 8.69706 3.5 9.16205 3.60222 9.54355C3.87962 10.5788 4.68827 11.3875 5.72354 11.6649C6.10504 11.7671 6.57003 11.7671 7.5 11.7671C8.42997 11.7671 8.89496 11.7671 9.27646 11.6649C10.3117 11.3875 11.1204 10.5788 11.3978 9.54355C11.5 9.16205 11.5 8.69706 11.5 7.76709C11.5 6.83712 11.5 6.37213 11.3978 5.99063C11.1204 4.95536 10.3117 4.14671 9.27646 3.86931C8.89496 3.76709 8.42997 3.76709 7.5 3.76709C6.57003 3.76709 6.10504 3.76709 5.72354 3.86931C4.68827 4.14671 3.87962 4.95536 3.60222 5.99063Z" fill="currentColor"/></svg></span>
         </div>
         <div class="nav-item">
-            <span class="nav-icon">👤</span>
+            <span class="nav-icon"><svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1005_11986)"><path d="M15.5 21.2672C15.4998 23.2001 12.3658 24.7672 8.5 24.7672C4.63415 24.7672 1.50024 23.2001 1.5 21.2672V19.7672C1.50042 20.8716 4.63427 21.7672 8.5 21.7672C12.3657 21.7672 15.4996 20.8716 15.5 19.7672V21.2672ZM14.8848 1.97908C15.1274 1.78966 15.4435 1.72285 15.7422 1.79744L19.7422 2.79744L19.2578 4.73689L16.5 4.04842V5.78279C20.4656 5.89084 23.4995 6.64037 23.5 7.76717V9.76717L22.5 10.7672L20.7256 20.0826C20.5754 20.8711 20.4879 21.7539 19.8613 22.2554C19.372 22.6469 18.508 23.0386 16.9834 23.1949C17.3001 22.6357 17.4999 21.9957 17.5 21.2672V17.6236C17.4998 16.5892 17.0245 15.709 16.5068 15.067C15.9717 14.4034 15.2617 13.8269 14.4756 13.357C12.9448 12.4422 10.9132 11.8048 8.69043 11.7701L8.5 10.7672L7.5 9.76717V7.82674C7.50121 6.5986 10.5348 5.88296 14.5 5.78084V2.76717C14.5 2.45924 14.6421 2.16859 14.8848 1.97908ZM8.5 13.7672C12.366 13.7672 15.5 15.9677 15.5 17.6246C15.4997 19.2812 12.3658 19.7672 8.5 19.7672C4.63421 19.7672 1.50033 19.2812 1.5 17.6246C1.5 15.9677 4.63401 13.7672 8.5 13.7672Z" fill="currentColor"/></g><defs><clipPath id="clip0_1005_11986"><rect width="24" height="24" fill="white" transform="translate(0.5 0.76709)"/></clipPath></defs></svg></span>
         </div>
-        <div class="nav-item active" style="position: relative;">
-            <span class="nav-icon">🛒</span>
-            <span class="nav-badge">1</span>
+        <div class="nav-item">
+            <span class="nav-icon"><svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.9787 12.0459L13.3908 12.0557L15.7942 7.98438H24.3V10.7119L22.3029 11.8027L21.0842 16.6182C20.4898 18.7581 20.1931 19.8285 19.5227 20.584C19.145 21.0095 18.6871 21.3574 18.176 21.6074C17.2687 22.0511 16.1577 22.0508 13.9367 22.0508H10.6643C8.44311 22.0508 7.33236 22.0513 6.42502 21.6074C5.91397 21.3574 5.45699 21.0095 5.07932 20.584C4.40884 19.8285 4.11129 18.7583 3.51682 16.6182L2.29904 11.8027L0.300018 10.7119V7.98438H10.383L14.6115 1H17.6594L10.9787 12.0459Z" fill="currentColor"/></svg></span>
+            <span class="nav-badge"></span>
         </div>
     </nav>
 
@@ -1349,6 +1374,20 @@
                 itemsOriginalTotal += old * qty;
             });
             return { itemsFinalTotal, itemsOriginalTotal, totalQuantity };
+        }
+
+        function computeTotalQuantityAllCarts(data) {
+            if (!data || !data.carts) return 0;
+            let totalQuantity = 0;
+            for (const cartId in data.carts) {
+                const cart = data.carts[cartId];
+                if (cart && cart.items) {
+                    cart.items.forEach(item => {
+                        totalQuantity += Number(item.quantity) || 0;
+                    });
+                }
+            }
+            return totalQuantity;
         }
 
         function computeTotals(data) {
@@ -1655,7 +1694,13 @@
             // Update bottom nav cart badge
             const navBadge = document.querySelector('.bottom-nav .nav-badge');
             if (navBadge) {
-                navBadge.textContent = String(totalQuantity);
+                const totalQuantityAllCarts = computeTotalQuantityAllCarts(data);
+                if (totalQuantityAllCarts > 0) {
+                    navBadge.textContent = String(totalQuantityAllCarts);
+                    navBadge.style.display = '';
+                } else {
+                    navBadge.style.display = 'none';
+                }
             }
 
             // Update tab subtitles and icons
