@@ -1336,29 +1336,6 @@
             return { items: [], delivery: {}, packaging: {} };
         }
 
-        // Quantity controls
-        function updateQuantity(refId, change) {
-            const data = JSON.parse(sessionStorage.getItem('appData'));
-            const cart = data.carts[data.activeCartId];
-            const item = cart.items.find(it => it.refId === refId);
-
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    // Remove item if quantity is 0 or less
-                    cart.items = cart.items.filter(it => it.refId !== refId);
-                }
-            } else if (change > 0) {
-                cart.items.push({ refId, quantity: change });
-            }
-            
-            sessionStorage.setItem('appData', JSON.stringify(data));
-            
-            renderCartItems();
-            recalculateCart();
-            updateDeliveryInfo();
-        }
-
         // Toggle switch for package return
         function toggleSwitch(element) {
             element.classList.toggle('active');
@@ -1805,6 +1782,7 @@
 
                 // Recalc to refresh tab subtitle
                 renderCartItems();
+                renderRecommendations(storeType);
                 recalculateCart();
                 renderMilestones();
                 updateDeliveryInfo();
@@ -1861,7 +1839,7 @@
 
             // Render items UI from catalog
             renderCartItems();
-            renderRecommendations();
+            renderRecommendations(data ? data.activeCartId : 'home');
 
             // Initial totals/progress
             recalculateCart();
@@ -1870,13 +1848,15 @@
         });
 
         // Render recommendations
-        function renderRecommendations() {
-            const recs = (window.APP_CONFIG && APP_CONFIG.recommendationItems) || [];
+        function renderRecommendations(activeCartId) {
+            const recKey = `recommendationItems_${activeCartId}`;
+            const recs = (window.APP_CONFIG && window.APP_CONFIG[recKey]) || [];
             const grid = document.querySelector('.recommendations-grid');
             if (!grid) return;
             grid.innerHTML = '';
 
-            const cart = getActiveCart();
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            const cart = (data && data.carts && data.carts[activeCartId]) || { items: [] };
 
             recs.forEach(itemId => {
                 const itemDef = resolveItemByRef(itemId);
@@ -1953,7 +1933,7 @@
             sessionStorage.setItem('appData', JSON.stringify(data));
             
             renderCartItems();
-            renderRecommendations();
+            renderRecommendations(data.activeCartId);
             recalculateCart();
             updateDeliveryInfo();
         }

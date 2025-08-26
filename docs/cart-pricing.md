@@ -37,11 +37,12 @@ This document explains how the cart total is computed and which UI elements disp
 - Store tabs subtitle:
   - Shows items-only total: `itemsFinalTotal` (excludes delivery & packaging)
 
-### Progress & Hints
-- Progress bar: progress toward the next cart-size discount tier
-  - Next target taken from `APP_CONFIG.cartDiscount.tiers`
-  - Progress % = `itemsFinalTotal / nextAmount`
-  - Hint shows: remaining to next tier or the applied discount if already reached
+### Progress & Milestones
+- The progress bar provides a unified visual track for all delivery fee and cart-size discount tiers.
+- **Progress Fill**: The green fill percentage is calculated as `itemsFinalTotal / maxThreshold`, where `maxThreshold` is the highest threshold defined across all delivery and discount tiers.
+- **Milestones**: Both delivery fee tiers and cart discount tiers are plotted as milestones along the track.
+  - Milestones that the user has reached are visually highlighted.
+- **Hint Text**: The hint text below the progress bar (`#delivery-hint`) dynamically shows the amount remaining to reach the next *delivery fee* tier (e.g., "Ещё 282₽, и будет 79₽").
 
 ### Threshold Semantics
 - Delivery tiers: thresholds are inclusive lower bounds; chosen by `max(threshold <= itemsFinalTotal)`.
@@ -50,7 +51,7 @@ This document explains how the cart total is computed and which UI elements disp
 ### UI Mapping
 - `DeliveryInfo` line shows both fees:
   - With Yandex Pay and without, based on current `itemsFinalTotal`
-- Small label near progress shows the active `deliveryFee` for the current user state
+- Milestones on the progress bar are highlighted to show the currently active `deliveryFee` and any achieved cart-size discounts.
 - `CheckoutFooter`:
   - Left time: `user.deliverySpeed`
   - Right prices: `price-final` (big), `price-original` (struck-through, hidden if equal)

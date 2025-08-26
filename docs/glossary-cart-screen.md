@@ -19,7 +19,7 @@ This glossary defines canonical component names, their purpose, key states/props
 - **Common actions**: share/upload, search, clear cart (icons placeholder).
 
 ### StoreTabs
-- **Purpose**: Toggle between store contexts (e.g., “лавка у дома”, “большая лавка”). Impacts assortment/pricing.
+- **Purpose**: Toggle between store contexts (e.g., “лавка у дома”, “большая лавка”). Impacts assortment, pricing, and recommendations.
 - **Key elements**: `.tabs`, `.tab`, `.tab.active`, `.tab-icon`, `.tab-content`, `.tab-title`, `.tab-subtitle`.
 - **State**: `active` on selected `.tab`.
 - **Data mapping**: `data-store` attribute → `cart.storeType`.
@@ -31,7 +31,7 @@ This glossary defines canonical component names, their purpose, key states/props
 
 ### ProgressBar
 - **Purpose**: Visualizes progress toward discount threshold.
-- **Key elements**: `.progress-bar`, `.progress-track`, `.progress-fill`, `.progress-labels`.
+- **Key elements**: `.progress-bar-container`, `.progress-bar-track`, `.progress-bar-fill`, `.milestone`.
 - **State**: `width` of `.progress-fill` expresses progress.
 
 ### VisualContainer
@@ -51,7 +51,7 @@ This glossary defines canonical component names, their purpose, key states/props
 ### QuantityControls
 - **Purpose**: Increment/decrement item quantity.
 - **Key elements**: `.quantity-controls`, `.qty-btn`, `.qty-value`.
-- **Behavior**: `updateQuantity(change)` updates UI and persisted state.
+- **Behavior**: `updateQuantity(refId, change)` updates UI and persisted state.
 
 ### OrderSummary
 - **Purpose**: Summarizes additional charges/metadata (e.g., packaging cost).
@@ -66,13 +66,13 @@ This glossary defines canonical component names, their purpose, key states/props
 - **Purpose**: Highlights active promo applicable to a product.
 - **Key elements**: `.promo-banner`, `.promo-card`, `.promo-icon`, `.promo-icon-ticket`, `.promo-text`.
 
-### PromoCodeList
+### PromoCodeEntry
 - **Purpose**: An entry point to the list of active promo codes.
-- **Notes**: Currently implemented as a simple text link without a dedicated class.
+- **Key elements**: `.promo-code-entry`, `.promo-code-icon`, `.promo-code-text`.
 
 ### Recommendations
-- **Purpose**: Horizontally scrollable list of recommended items.
-- **Key elements**: `.recommendations`, `.recommendations-header`, `.recommendations-grid`, `.recommendation-card`, `.rec-image`, `.rec-badge`.
+- **Purpose**: A grid of recommended items.
+- **Key elements**: `.recommendations`, `.recommendations-header`, `.recommendations-grid`, `.recommendation-card`, `.rec-image`, `.rec-discount-badge`.
 
 ### CheckoutFooter
 - **Purpose**: Fixed call-to-action bar for checkout with ETA and price.
@@ -90,7 +90,7 @@ This glossary defines canonical component names, their purpose, key states/props
 ### Common UI Elements
 - **IconButton**: `.icon-btn` neutral clickable icon (header, cards).
 - **BadgeGreen**: `.badge-green` positive/discount badge.
-- **RecBadge / NavBadge**: `.rec-badge`, `.nav-badge` small labels/counters.
+- **RecDiscountBadge / NavBadge**: `.rec-discount-badge`, `.nav-badge` small labels/counters.
 
 ### Data Model Entities (for naming alignment)
 - **User**: `user.hasPlus`, `user.location` affect perks and copy.
@@ -98,11 +98,11 @@ This glossary defines canonical component names, their purpose, key states/props
 - **Delivery**: `delivery.cost`, `costWithoutPlus`, `discount`, `time`, `minForDiscount`, `currentTotal`.
 - **Packaging**: `packaging.cost`, `returnable`, `points`.
 - **Promotions**: `promos[]` (id, discount, product, active).
-- **Recommendations**: `recommendations[]` (id, name, emoji, promo).
+- **Recommendations**: `recommendationItems_home[]`, `recommendationItems_big[]`. Arrays of item IDs stored in `APP_CONFIG`. The feed's content is now dependent on the active `StoreTab`.
 
 ### Behavioral Utilities
 - **Session Persistence**: Initial `appData` seeded and persisted in `sessionStorage`.
-- **Tab Switching**: Click handler toggles `.tab.active` and updates `cart.storeType`.
+- **Tab Switching**: Click handler toggles `.tab.active`, updates `cart.storeType`, and re-renders cart-dependent components like `CartItemsList` and `Recommendations`.
 - **iOS Pull-To-Refresh Guard**: Prevents bounce refresh at scrollTop.
 
 Use these names (e.g., `StatusBar`, `Header`, `StoreTabs`, `DeliveryInfo`, `ProgressBar`, `CartItem`, `QuantityControls`, `OrderSummary`, `PackageReturn`, `PromoBanner`, `Recommendations`, `CheckoutFooter`, `BottomNavigation`, `ContentSpacer`) as the canonical component identifiers going forward. 

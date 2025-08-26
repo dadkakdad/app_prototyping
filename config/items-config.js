@@ -118,7 +118,7 @@
                 price: 99,
                 oldPrice: null,
                 weight: '500 мл',
-                image: './assets/images/chai_iz_lakvi-min.png',
+                image: './assets/images/chai_iz_lavki-min.png',
                 emoji: '🍹',
                 category: 'drinks'
             },

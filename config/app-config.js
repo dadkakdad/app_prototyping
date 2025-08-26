@@ -38,20 +38,36 @@
             location: 'Helsinki, FI',
             deliverySpeed: '15-30 мин'
         },
-        recommendationItems: [
+        recommendationItems_home: [
             'raspberry_artfruit', 
-            'snickers_ice_cream', 
             'vinograd', 
             'golubika', 
             'makadamia', 
-            'lemonad', 
-            'chipsy_krevetka', 
             'goroh', 
-            'maxiduo', 
             'savushkin', 
-            'chupa_chups', 
-            'chay', 
-            'lays_pech', 
+            'cvety',
+            'snickers_ice_cream',
+            'lemonad',
+            'chipsy_krevetka',
+            'morozhenoe',
+            'chupa',
+            'chai_iz_lakvi',
+            'lays_pech'
+        ],
+        recommendationItems_big: [
+            'snickers_ice_cream',
+            'raspberry_artfruit',
+            'lemonad',
+            'vinograd',
+            'chipsy_krevetka',
+            'golubika',
+            'morozhenoe',
+            'makadamia',
+            'chupa',
+            'goroh',
+            'chai_iz_lakvi',
+            'savushkin',
+            'lays_pech',
             'cvety'
         ]
     };
