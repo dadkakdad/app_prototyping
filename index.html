@@ -10,27 +10,9 @@
         /* Custom Fonts */
         @font-face {
             font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Thin.ttf') format('truetype');
-            font-weight: 100;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Thin Italic.ttf') format('truetype');
-            font-weight: 100;
-            font-style: italic;
-        }
-        @font-face {
-            font-family: 'YS Text';
             src: url('./assets/fonts/YS Text-Light.ttf') format('truetype');
             font-weight: 300;
             font-style: normal;
-        }
-        @font-face {
-            font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Light Italic.ttf') format('truetype');
-            font-weight: 300;
-            font-style: italic;
         }
         @font-face {
             font-family: 'YS Text';
@@ -40,21 +22,9 @@
         }
         @font-face {
             font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Regular Italic.ttf') format('truetype');
-            font-weight: 400;
-            font-style: italic;
-        }
-        @font-face {
-            font-family: 'YS Text';
             src: url('./assets/fonts/YS Text-Medium.ttf') format('truetype');
             font-weight: 500;
             font-style: normal;
-        }
-        @font-face {
-            font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Medium Italic.ttf') format('truetype');
-            font-weight: 500;
-            font-style: italic;
         }
         @font-face {
             font-family: 'YS Text';
@@ -64,33 +34,9 @@
         }
         @font-face {
             font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Bold Italic.ttf') format('truetype');
-            font-weight: 700;
-            font-style: italic;
-        }
-        @font-face {
-            font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Heavy.ttf') format('truetype');
-            font-weight: 800;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Heavy Italic.ttf') format('truetype');
-            font-weight: 800;
-            font-style: italic;
-        }
-        @font-face {
-            font-family: 'YS Text';
             src: url('./assets/fonts/YS Text-Black.ttf') format('truetype');
             font-weight: 900;
             font-style: normal;
-        }
-        @font-face {
-            font-family: 'YS Text';
-            src: url('./assets/fonts/YS Text-Black Italic.ttf') format('truetype');
-            font-weight: 900;
-            font-style: italic;
         }
 
         /* Design System - Variables */
@@ -751,42 +697,154 @@
         }
 
         .recommendations-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--spacing-md);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: var(--spacing-sm);
         }
 
         .recommendation-card {
-            min-width: 120px;
-            background: var(--color-bg-card);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-sm);
+            background: var(--color-bg-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: none;
+        }
+
+        .rec-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 1:1 Aspect Ratio */
+            background-color: var(--color-image-bg);
         }
 
         .rec-image {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 80px;
-            background: var(--color-bg-secondary);
+            height: 100%;
+            object-fit: contain;
+            padding: var(--spacing-sm);
+        }
+
+        .rec-discount-badge {
+            position: absolute;
+            bottom: var(--spacing-sm);
+            left: var(--spacing-sm);
+            background-color: var(--color-red);
+            color: white;
+            padding: 2px 8px;
             border-radius: var(--radius-sm);
-            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            transform: rotate(-10deg);
+        }
+        
+        .rec-add-btn {
+            position: absolute;
+            bottom: var(--spacing-sm);
+            right: var(--spacing-sm);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--color-bg-primary);
+            border: none;
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--color-text-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.1s ease-in-out;
+        }
+        .rec-add-btn:active {
+            transform: scale(0.92);
+        }
+        
+        .rec-quantity-controls {
+            position: absolute;
+            bottom: var(--spacing-sm);
+            right: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            background: var(--color-bg-primary);
+            border-radius: var(--radius-full);
+            height: 36px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
-        .rec-badge {
-            position: absolute;
-            top: var(--spacing-xs);
-            left: var(--spacing-xs);
-            background: var(--color-badge-blue);
-            color: white;
-            padding: 2px 6px;
-            border-radius: var(--radius-sm);
-            font-size: var(--font-size-xs);
+        .rec-quantity-controls .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            line-height: 1;
+            font-weight: 400;
+            cursor: pointer;
+            color: var(--color-text-primary);
+            transition: background-color 0.15s ease;
+        }
+
+        .rec-quantity-controls .qty-btn:active {
+            background-color: var(--color-bg-secondary);
+        }
+
+        .rec-quantity-controls .qty-value {
+            font-size: var(--font-size-base);
             font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .rec-details {
+            padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            flex-grow: 1;
+        }
+        
+        .rec-price {
+            display: flex;
+            align-items: baseline;
+            gap: var(--spacing-sm);
+            margin-bottom: 2px;
+        }
+        
+        .rec-price .price-current {
+            font-size: var(--font-size-md);
+            font-weight: 700;
+        }
+
+        .rec-name {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            line-height: 1.3;
+            flex-grow: 1;
+        
+            /* 3-line clamp */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .rec-name .rec-item-weight {
+            color: var(--color-text-tertiary);
+        }
+        
+        .rec-weight {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-tertiary);
         }
 
         /* Checkout Footer */
@@ -1290,6 +1348,8 @@
                     // Remove item if quantity is 0 or less
                     cart.items = cart.items.filter(it => it.refId !== refId);
                 }
+            } else if (change > 0) {
+                cart.items.push({ refId, quantity: change });
             }
             
             sessionStorage.setItem('appData', JSON.stringify(data));
@@ -1801,12 +1861,102 @@
 
             // Render items UI from catalog
             renderCartItems();
+            renderRecommendations();
 
             // Initial totals/progress
             recalculateCart();
             renderMilestones();
             updateDeliveryInfo();
         });
+
+        // Render recommendations
+        function renderRecommendations() {
+            const recs = (window.APP_CONFIG && APP_CONFIG.recommendationItems) || [];
+            const grid = document.querySelector('.recommendations-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            const cart = getActiveCart();
+
+            recs.forEach(itemId => {
+                const itemDef = resolveItemByRef(itemId);
+                if (!itemDef) return;
+
+                const card = document.createElement('div');
+                card.className = 'recommendation-card';
+
+                const priceOldHTML = itemDef.oldPrice && itemDef.oldPrice > itemDef.price 
+                    ? `<span class="price-old">${formatPrice(itemDef.oldPrice)}</span>` 
+                    : '';
+                
+                const hasDiscount = itemDef.oldPrice && itemDef.oldPrice > itemDef.price;
+                const discount = hasDiscount ? Math.round((1 - (itemDef.price / itemDef.oldPrice)) * 100) : 0;
+                
+                const discountBadgeHTML = hasDiscount 
+                    ? `<div class="rec-discount-badge">-${discount}%</div>`
+                    : '';
+                
+                const imageHTML = itemDef.image
+                    ? `<img src="${itemDef.image}" alt="${itemDef.name}" class="rec-image">`
+                    : `<div class="rec-image" style="font-size: 32px;">${itemDef.emoji || ''}</div>`;
+
+                const itemInCart = cart.items.find(it => it.refId === itemDef.id);
+                const quantity = itemInCart ? itemInCart.quantity : 0;
+
+                let controlsHTML = '';
+                if (quantity > 0) {
+                    controlsHTML = `
+                        <div class="rec-quantity-controls">
+                            <button class="qty-btn" onclick="updateQuantity('${itemDef.id}', -1)">−</button>
+                            <span class="qty-value">${quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity('${itemDef.id}', 1)">+</button>
+                        </div>
+                    `;
+                } else {
+                    controlsHTML = `<button class="rec-add-btn" onclick="updateQuantity('${itemDef.id}', 1)">+</button>`;
+                }
+
+                card.innerHTML = `
+                    <div class="rec-image-container">
+                        ${imageHTML}
+                        ${discountBadgeHTML}
+                        ${controlsHTML}
+                    </div>
+                    <div class="rec-details">
+                        <div class="rec-price">
+                            <span class="price-current ${hasDiscount ? 'has-discount' : ''}">${formatPrice(itemDef.price)}</span>
+                            ${priceOldHTML}
+                        </div>
+                        <div class="rec-name">${itemDef.name} <span class="rec-item-weight">${itemDef.weight}</span></div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Quantity controls
+        function updateQuantity(refId, change) {
+            const data = JSON.parse(sessionStorage.getItem('appData'));
+            const cart = data.carts[data.activeCartId];
+            const item = cart.items.find(it => it.refId === refId);
+
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    // Remove item if quantity is 0 or less
+                    cart.items = cart.items.filter(it => it.refId !== refId);
+                }
+            } else if (change > 0) {
+                cart.items.push({ refId, quantity: change });
+            }
+            
+            sessionStorage.setItem('appData', JSON.stringify(data));
+            
+            renderCartItems();
+            renderRecommendations();
+            recalculateCart();
+            updateDeliveryInfo();
+        }
     </script>
 </body>
 </html>

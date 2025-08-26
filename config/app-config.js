@@ -37,6 +37,22 @@
             payWithYandexPay: true,
             location: 'Helsinki, FI',
             deliverySpeed: '15-30 мин'
-        }
+        },
+        recommendationItems: [
+            'raspberry_artfruit', 
+            'snickers_ice_cream', 
+            'vinograd', 
+            'golubika', 
+            'makadamia', 
+            'lemonad', 
+            'chipsy_krevetka', 
+            'goroh', 
+            'maxiduo', 
+            'savushkin', 
+            'chupa_chups', 
+            'chay', 
+            'lays_pech', 
+            'cvety'
+        ]
     };
 })(); 
