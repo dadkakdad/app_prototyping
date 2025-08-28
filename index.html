@@ -46,12 +46,6 @@
             observer.disconnect();
         });
     </script>
-    <style>
-        .checkout-btn-redesigned.free-delivery .checkout-progress-ring__progress {
-            stroke: var(--color-green, #00B341);
-        }
-
-    </style>
 </head>
 <body>
     <!-- Status Bar -->
@@ -177,21 +171,16 @@
     <div class="content-spacer"></div>
 
     <!-- Checkout Footer -->
-    <div class="checkout-footer">
-        <div class="promo-code-entry">
-            <div class="promo-code-icon">%</div>
-            <div class="promo-code-text">У вас 2 промокода</div>
-            <div class="promo-code-arrow">&rsaquo;</div>
+    <button class="checkout-btn-redesigned">
+        <svg class="checkout-progress-ring" width="72" height="72">
+            <circle class="checkout-progress-ring__bg" r="30" cx="36" cy="36" fill="transparent" stroke-width="6" />
+            <circle class="checkout-progress-ring__progress" r="30" cx="36" cy="36" fill="transparent" stroke-width="6" />
+        </svg>
+        <div class="checkout-btn-inner">
+            <div class="checkout-total">0₽</div>
+            <div class="checkout-delivery">Дост. 0₽</div>
         </div>
-        <button class="checkout-btn">
-            <span class="checkout-time">15-30 мин</span>
-            <span style="flex: 1; text-align: center;">К оплате</span>
-            <span class="checkout-price">
-                <span class="price-final">510₽</span>
-                <span class="price-original">588₽</span>
-            </span>
-        </button>
-    </div>
+    </button>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">

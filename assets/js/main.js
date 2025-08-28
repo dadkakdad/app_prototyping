@@ -468,6 +468,46 @@ function updateAllTabSubtitles() {
     }
 }
 
+function updateCheckoutButton() {
+    const data = JSON.parse(sessionStorage.getItem('appData'));
+    if (!data || !data.carts) return;
+
+    const { itemsFinalTotal, itemsOriginalTotal } = computeTotals(data);
+    const usesYandexPay = isYandexPayEnabled(data);
+    const deliveryFee = getDeliveryFee(itemsFinalTotal, usesYandexPay);
+    const packagingFee = Number(data.carts[data.activeCartId].packaging?.cost) || 0;
+    const rate = getCartDiscountRate(itemsFinalTotal);
+    const finalAfterDiscount = Math.round((itemsFinalTotal + packagingFee + deliveryFee) * (1 - rate));
+
+    const btn = document.querySelector('.checkout-btn-redesigned');
+    if (!btn) return;
+
+    const totalEl = btn.querySelector('.checkout-total');
+    const deliveryEl = btn.querySelector('.checkout-delivery');
+    if (totalEl) totalEl.textContent = formatPrice(finalAfterDiscount);
+
+    if (deliveryEl) {
+        if (deliveryFee === 0) {
+            deliveryEl.textContent = 'Free Delivery!';
+            btn.classList.add('free-delivery');
+        } else {
+            deliveryEl.textContent = `Дост. ${formatPrice(deliveryFee)}`;
+            btn.classList.remove('free-delivery');
+        }
+    }
+
+    const deliveryTiers = usesYandexPay ? APP_CONFIG.delivery.tiers.yandexPay : APP_CONFIG.delivery.tiers.regular;
+    const freeTier = deliveryTiers.find(t => t.fee === 0) || { threshold: 1 };
+    const progress = Math.min(1, itemsFinalTotal / freeTier.threshold);
+    const radius = 30;
+    const circumference = 2 * Math.PI * radius;
+    const progressRing = btn.querySelector('.checkout-progress-ring__progress');
+    if (progressRing) {
+        progressRing.style.strokeDasharray = `${circumference}`;
+        progressRing.style.strokeDashoffset = `${circumference * (1 - progress)}`;
+    }
+}
+
 // Recalculate UI: totals, progress, badges
 function recalculateCart() {
     const data = JSON.parse(sessionStorage.getItem('appData'));
@@ -572,6 +612,8 @@ function recalculateCart() {
         activeCart.delivery.currentTotal = itemsFinalTotal;
     }
     sessionStorage.setItem('appData', JSON.stringify(data));
+
+    updateCheckoutButton();
 }
 
 // Tab switching
