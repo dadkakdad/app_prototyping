@@ -38,11 +38,14 @@
             location: 'Helsinki, FI',
             deliverySpeed: '15-30 мин'
         },
+        bundles: [
+            { items: ['chipsy_krevetka', 'lemonad'], price: 350 }
+        ],
         recommendationItems_home: [
-            'raspberry_artfruit', 
-            'vinograd', 
-            'golubika', 
-            'makadamia', 
+            'raspberry_artfruit',
+            'vinograd',
+            'golubika',
+            'makadamia',
             'goroh', 
             'savushkin', 
             'cvety',

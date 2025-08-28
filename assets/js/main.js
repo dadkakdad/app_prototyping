@@ -591,6 +591,7 @@ document.querySelectorAll('.tab').forEach(tab => {
         // Recalc to refresh tab subtitle
         renderCartItems();
         renderRecommendations(storeType);
+        renderBundles();
         recalculateCart();
         renderMilestones();
         updateDeliveryInfo();
@@ -648,6 +649,7 @@ window.addEventListener('load', function() {
     // Render items UI from catalog
     renderCartItems();
     renderRecommendations(data ? data.activeCartId : 'home');
+    renderBundles();
 
     // Initial totals/progress
     recalculateCart();
@@ -720,6 +722,62 @@ function renderRecommendations(activeCartId) {
         `;
         grid.appendChild(card);
     });
+}
+
+// Render bundles
+function renderBundles() {
+    const container = document.querySelector('.bundles');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const bundles = (window.APP_CONFIG && window.APP_CONFIG.bundles) || [];
+
+    bundles.forEach(bundle => {
+        const card = document.createElement('div');
+        card.className = 'recommendation-card bundle-card';
+
+        const names = bundle.items.map(function(ref) {
+            const def = resolveItemByRef(ref);
+            return def ? def.name : ref;
+        }).join(' + ');
+
+        card.innerHTML = `
+            <div class="bundle-items">${names}</div>
+            <div class="bundle-footer">
+                <div class="bundle-price">${formatPrice(bundle.price)}</div>
+                <button class="bundle-add-btn">+</button>
+            </div>
+        `;
+
+        const btn = card.querySelector('.bundle-add-btn');
+        btn.addEventListener('click', function() {
+            addBundleItems(bundle.items);
+        });
+
+        container.appendChild(card);
+    });
+}
+
+function addBundleItems(itemRefs) {
+    const data = JSON.parse(sessionStorage.getItem('appData'));
+    const cart = data.carts[data.activeCartId];
+
+    itemRefs.forEach(function(refId) {
+        const existing = cart.items.find(function(it) { return it.refId === refId; });
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.items.push({ refId: refId, quantity: 1 });
+        }
+    });
+
+    sessionStorage.setItem('appData', JSON.stringify(data));
+
+    renderCartItems();
+    renderRecommendations(data.activeCartId);
+    renderBundles();
+    recalculateCart();
+    updateDeliveryInfo();
 }
 
 // Quantity controls
