@@ -1,1 +1,12 @@
 .DS_Store
+# VS Code workspace settings
+.vscode/
+
+# GitHub metadata (workflows, actions, etc.)
+.github/
+
+# Project meta documentation and agent instruction files
+_meta/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
