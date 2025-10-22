@@ -225,10 +225,10 @@ button {
 
 /* Delivery Info */
 .delivery-info {
-    background: var(--color-bg-card);
-    padding: var(--spacing-md) var(--spacing-md) 22px;
+    /* background: var(--color-bg-card); */
+    padding: var(--spacing-md) var(--spacing-xxs) 22px;
     border-radius: var(--radius-lg);
-    margin: 0 var(--spacing-lg) 8px;
+    margin: 8px var(--spacing-md) 8px;
 }
 
 .delivery-header {
